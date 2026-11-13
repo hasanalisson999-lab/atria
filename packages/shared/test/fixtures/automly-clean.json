@@ -1,0 +1,31 @@
+{
+  "adArchiveId": "7777777777777777",
+  "adLibraryUrl": "https://www.facebook.com/ads/library/?id=7777777777777777",
+  "collationId": null,
+  "versionCount": 3,
+  "isActive": true,
+  "startDate": "2026-08-25",
+  "endDate": null,
+  "adFormat": "carousel",
+  "mediaType": "image",
+  "bodyText": "Seamless sets built for lifting.",
+  "headline": "Seamless Set",
+  "linkDescription": "Free shipping",
+  "linkCaption": "example-gymwear.com",
+  "linkUrl": "https://example-gymwear.com/seamless",
+  "linkDomain": "example-gymwear.com",
+  "ctaText": "Shop now",
+  "imageUrls": ["https://scontent.xx.fbcdn.net/v/a.jpg?x=1", "https://scontent.xx.fbcdn.net/v/a.jpg?x=2"],
+  "videos": [],
+  "cards": [
+    { "headline": "Seamless Set", "bodyText": "Seamless sets built for lifting.", "linkUrl": "https://example-gymwear.com/seamless", "imageUrl": "https://scontent.xx.fbcdn.net/v/b.jpg" },
+    { "headline": "Sports Bra", "linkUrl": "https://example-gymwear.com/bra", "imageUrl": "https://scontent.xx.fbcdn.net/v/c.jpg" }
+  ],
+  "platforms": ["facebook", "instagram"],
+  "pageId": "888888888",
+  "pageName": "Example Gymwear",
+  "pageUrl": "https://www.facebook.com/ExampleGymwear/",
+  "pageProfilePictureUrl": "https://scontent.xx.fbcdn.net/v/eg.jpg",
+  "pageCategory": "Clothing (Brand)",
+  "searchTerm": "seamless set"
+}

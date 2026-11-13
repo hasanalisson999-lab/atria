@@ -1,0 +1,24 @@
+{
+  "name": "signal",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "npm@11.20.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "scripts"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel --continue",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "db:migrate": "npm run migrate -w @signal/shared",
+    "benchmark": "npm run benchmark -w @signal/scripts"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.11",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "rows": [
+    {
+      "id": "curious_coder/facebook-ads-library-scraper",
+      "label": "curious_coder · Facebook Ad Library Scraper",
+      "ads": 199,
+      "rawItems": 200,
+      "skipped": 0,
+      "usd": 0.04815,
+      "per1k": 0.24195979899497486,
+      "seconds": 44.901,
+      "errors": [],
+      "runs": [
+        {
+          "query": "gym shorts / US",
+          "runId": "KzpKCSfbmhTZtS9JE",
+          "status": "SUCCEEDED",
+          "items": 70,
+          "usd": 0.0203,
+          "seconds": 14.62
+        },
+        {
+          "query": "activewear / GB",
+          "runId": "1DsMR0UHvrp5iIJvf",
+          "status": "SUCCEEDED",
+          "items": 70,
+          "usd": 0.01055,
+          "seconds": 15.477
+        },
+        {
+          "query": "pre workout / US",
+          "runId": "yZRW0szT2IW8ChBCq",
+          "status": "SUCCEEDED",
+          "items": 60,
+          "usd": 0.0173,
+          "seconds": 14.804
+        }
+      ],
+      "media": {
+        "sampled": 15,
+        "ok": 15,
+        "videos": 0,
+        "videoOk": 0
+      },
+      "completeness": [
+        {
+          "name": "body text",
+          "all": 99,
+          "common": 99
+        },
+        {
+          "name": "headline",
+          "all": 96,
+          "common": 96
+        },
+        {
+          "name": "CTA",
+          "all": 99.5,
+          "common": 99.5
+        },
+        {
+          "name": "landing URL",
+          "all": 99.5,
+          "common": 99.5
+        },
+        {
+          "name": "start date",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "platforms",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "brand name",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "brand logo",
+          "all": 99.5,
+          "common": 99.5
+        },
+        {
+          "name": "any media URL",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "video URL (video ads)",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "known format",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "variations count > 1",
+          "all": 18.6,
+          "common": 18.7
+        }
+      ],
+      "avgCompleteness": 99.4090909090909,
+      "formats": {
+        "dco": 96,
+        "video": 45,
+        "image": 55,
+        "carousel": 3
+      }
+    },
+    {
+      "id": "automly/facebook-ad-library-scraper",
+      "label": "automly · Facebook Ads Scraper",
+      "ads": 199,
+      "rawItems": 200,
+      "skipped": 0,
+      "usd": 0.1843,
+      "per1k": 0.9261306532663316,
+      "seconds": 39.231,
+      "errors": [],
+      "runs": [
+        {
+          "query": "gym shorts / US",
+          "runId": "vOEDVEdYMxHl9WDNJ",
+          "status": "SUCCEEDED",
+          "items": 70,
+          "usd": 0.05,
+          "seconds": 12.582
+        },
+        {
+          "query": "activewear / GB",
+          "runId": "ebJlo70Xfubyh0kXR",
+          "status": "SUCCEEDED",
+          "items": 70,
+          "usd": 0.0773,
+          "seconds": 16.187
+        },
+        {
+          "query": "pre workout / US",
+          "runId": "wRFCpDlq2HaNOwojV",
+          "status": "SUCCEEDED",
+          "items": 60,
+          "usd": 0.057,
+          "seconds": 10.462
+        }
+      ],
+      "media": {
+        "sampled": 15,
+        "ok": 15,
+        "videos": 0,
+        "videoOk": 0
+      },
+      "completeness": [
+        {
+          "name": "body text",
+          "all": 99.5,
+          "common": 99.5
+        },
+        {
+          "name": "headline",
+          "all": 96,
+          "common": 96
+        },
+        {
+          "name": "CTA",
+          "all": 99.5,
+          "common": 99.5
+        },
+        {
+          "name": "landing URL",
+          "all": 99.5,
+          "common": 99.5
+        },
+        {
+          "name": "start date",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "platforms",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "brand name",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "brand logo",
+          "all": 99.5,
+          "common": 99.5
+        },
+        {
+          "name": "any media URL",
+          "all": 77.4,
+          "common": 77.3
+        },
+        {
+          "name": "video URL (video ads)",
+          "all": 77.4,
+          "common": 77.3
+        },
+        {
+          "name": "known format",
+          "all": 100,
+          "common": 100
+        },
+        {
+          "name": "variations count > 1",
+          "all": 19.6,
+          "common": 19.7
+        }
+      ],
+      "avgCompleteness": 95.34545454545454,
+      "formats": {
+        "dco": 74,
+        "video": 45,
+        "carousel": 26,
+        "image": 54
+      }
+    }
+  ],
+  "common": 198,
+  "spentTotal": 0.23245,
+  "ledger": "postgres"
+}

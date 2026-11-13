@@ -1,0 +1,17 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# deps / builds
+node_modules/
+.next/
+dist/
+out/
+.turbo/
+coverage/
+*.log
+.DS_Store
+
+# local benchmark output (raw scraped data)
+reports/benchmark-raw/

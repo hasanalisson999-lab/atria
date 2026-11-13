@@ -1,0 +1,46 @@
+{
+  "adArchiveID": "4444444444444444",
+  "pageID": "555555555",
+  "pageName": "Test Supplements",
+  "collationId": null,
+  "collationCount": 1,
+  "isActive": false,
+  "startDate": 1757980800,
+  "endDate": 1761868800,
+  "startDateFormatted": "2025-09-16T00:00:00.000Z",
+  "endDateFormatted": "2025-10-31T00:00:00.000Z",
+  "publisherPlatform": ["FACEBOOK"],
+  "targetedOrReachedCountries": ["de", "FR"],
+  "snapshot": {
+    "pageProfilePictureUrl": "https://scontent.xx.fbcdn.net/v/sup-logo.jpg",
+    "pageProfileUri": "https://www.facebook.com/testsupps/",
+    "pageCategories": ["Health/beauty"],
+    "body": { "text": "{{product.brand}}" },
+    "title": "{{product.name}}",
+    "linkDescription": "{{product.description}}",
+    "ctaText": "Shop Now",
+    "linkUrl": "https://testsupps.de/pre-workout",
+    "caption": "testsupps.de",
+    "displayFormat": "DCO",
+    "images": [],
+    "videos": [],
+    "cards": [
+      {
+        "body": "Clean pre-workout. No crash.",
+        "title": "Pump Formula",
+        "linkDescription": "Now 20% off",
+        "linkUrl": "https://testsupps.de/pre-workout",
+        "ctaText": "Shop Now",
+        "originalImageUrl": "https://scontent.xx.fbcdn.net/v/card1.jpg?a=1",
+        "resizedImageUrl": "https://scontent.xx.fbcdn.net/v/card1_small.jpg"
+      },
+      {
+        "body": "Creatine monohydrate, tested.",
+        "title": "Creatine",
+        "linkUrl": "https://testsupps.de/creatine",
+        "ctaText": "Shop Now",
+        "originalImageUrl": "https://scontent.xx.fbcdn.net/v/card2.jpg?a=1"
+      }
+    ]
+  }
+}

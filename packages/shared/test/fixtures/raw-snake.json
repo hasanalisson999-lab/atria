@@ -1,0 +1,33 @@
+{
+  "ad_archive_id": "1111111111111111",
+  "page_id": "222222222",
+  "page_name": "Test Activewear Co",
+  "collation_id": "333333333",
+  "collation_count": 4,
+  "is_active": true,
+  "start_date": 1760140800,
+  "end_date": null,
+  "publisher_platform": ["FACEBOOK", "INSTAGRAM", "AUDIENCE_NETWORK"],
+  "targeted_or_reached_countries": [],
+  "snapshot": {
+    "page_profile_picture_url": "https://scontent.xx.fbcdn.net/v/logo.jpg?x=1",
+    "page_profile_uri": "https://www.facebook.com/testactivewear/",
+    "page_categories": ["Clothing (Brand)"],
+    "body": { "text": "Squat-proof shorts that actually stay put. 30-day free returns." },
+    "title": "The Everyday Gym Short",
+    "link_description": "Free shipping over $50",
+    "cta_text": "Shop now",
+    "link_url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.testactivewear.com%2Fproducts%2Fshorts%3Futm_source%3Dfb&h=abc",
+    "caption": "testactivewear.com",
+    "display_format": "VIDEO",
+    "images": [],
+    "videos": [
+      {
+        "video_hd_url": "https://video.xx.fbcdn.net/v/hd.mp4?oh=1",
+        "video_sd_url": "https://video.xx.fbcdn.net/v/sd.mp4?oh=1",
+        "video_preview_image_url": "https://scontent.xx.fbcdn.net/v/preview.jpg?oh=1"
+      }
+    ],
+    "cards": []
+  }
+}

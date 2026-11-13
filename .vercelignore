@@ -1,0 +1,4 @@
+reports/
+.vercel
+**/.next
+**/node_modules
