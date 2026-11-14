@@ -145,7 +145,7 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
       onFocus={enter}
       onBlur={leave}
       className={cn(
-        "group/tile relative w-full cursor-pointer overflow-hidden rounded-[20px] bg-surface-2 outline-none",
+        "group/tile relative w-full cursor-pointer overflow-hidden rounded-[20px] outline-none",
         "transition-[transform,box-shadow] duration-300 ease-[var(--ease-out-quart)] hover:-translate-y-1 hover:shadow-[var(--shadow-lift)] focus-visible:ring-3 focus-visible:ring-ring/60",
         selected && "ring-3 ring-pink",
       )}

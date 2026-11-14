@@ -17,6 +17,19 @@ import { fetchAd } from "@/lib/api-client";
 import { AdDetailView } from "@/components/ad/ad-detail";
 import { ErrorState, SkeletonBlock } from "@/components/states";
 import type { AdDetail } from "@/lib/server/ads";
+import { useUiTheme, type UiThemeId } from "@/lib/ui-theme";
+
+/** Where the popup sits and how it moves in, per interface style. */
+const SHELL: Record<UiThemeId, { overlay: string; dim: string; box: string; from: Record<string, number | string>; out: Record<string, number | string> }> = {
+  // Centred card next to the creative.
+  atria: { overlay: "items-center justify-center p-0 sm:p-5", dim: "bg-black/55 backdrop-blur-2xl", box: "h-full w-full sm:h-[min(1000px,93dvh)] sm:w-[min(1480px,94vw)]", from: { opacity: 0, scale: 0.96, y: 18 }, out: { opacity: 0, scale: 0.97, y: 10 } },
+  // Full-screen theater.
+  cinema: { overlay: "items-stretch justify-stretch", dim: "bg-black", box: "h-full w-full", from: { opacity: 0, scale: 1.03 }, out: { opacity: 0, scale: 1.02 } },
+  // Drawer from the right; the page stays visible on the left.
+  ledger: { overlay: "items-stretch justify-end", dim: "bg-black/25", box: "h-full w-full sm:w-[min(820px,100vw)] shadow-[var(--shadow-lift)]", from: { x: "100%" }, out: { x: "100%" } },
+  // Bottom sheet.
+  pop: { overlay: "items-end justify-center", dim: "bg-black/45", box: "h-[92dvh] w-full max-w-[1600px]", from: { y: "100%" }, out: { y: "100%" } },
+};
 
 interface Preview {
   id: string;
@@ -155,6 +168,8 @@ export function AdPanelProvider({ children }: { children: React.ReactNode }) {
     () => ({ open, close, reload, openId }),
     [open, close, reload, openId],
   );
+  const [ui] = useUiTheme();
+  const shell = SHELL[ui];
   const showing = openId ? details[openId] : undefined;
   const error = openId ? errors[openId] : undefined;
   const preview = index >= 0 ? list[index] : undefined;
@@ -168,7 +183,7 @@ export function AdPanelProvider({ children }: { children: React.ReactNode }) {
             {openId && (
               <motion.div
                 key="ad-overlay"
-                className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-5"
+                className={`fixed inset-0 z-50 flex ${shell.overlay}`}
                 onClick={(e) => {
                   // Any click outside the ad or the info card closes the popup.
                   if (!(e.target as HTMLElement).closest("[data-popup-keep]")) close();
@@ -183,16 +198,16 @@ export function AdPanelProvider({ children }: { children: React.ReactNode }) {
                   type="button"
                   aria-label="Close"
                   onClick={close}
-                  className="absolute inset-0 cursor-default bg-black/55 backdrop-blur-2xl"
+                  className={`absolute inset-0 cursor-default ${shell.dim}`}
                 />
                 <motion.div
                   role="dialog"
                   aria-modal="true"
                   aria-label="Ad details"
-                  className="relative z-10 h-full w-full sm:h-[min(1000px,93dvh)] sm:w-[min(1480px,94vw)]"
-                  initial={{ opacity: 0, scale: 0.96, y: 18 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.97, y: 10 }}
+                  className={`relative z-10 ${shell.box}`}
+                  initial={shell.from}
+                  animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                  exit={shell.out}
                   transition={{
                     type: "spring",
                     stiffness: 380,

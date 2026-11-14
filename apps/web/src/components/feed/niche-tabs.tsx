@@ -15,21 +15,35 @@ export interface NicheTabItem {
 
 /**
  * The category switch above Discover, drawn per interface style:
- * Atria spring pills · Studio underlined tabs · Gallery large typeset words · Bento colour tiles · Feed chips.
+ * Atria spring pills · Cinema genre buttons · Ledger underlined tabs with counts · Pop tilted stickers.
  */
 export function NicheTabs({ items, active }: { items: NicheTabItem[]; active: string }) {
   const [ui] = useUiTheme();
 
-  if (ui === "studio")
+  if (ui === "cinema")
+    return (
+      <nav aria-label="Category" className="no-scrollbar -mx-1 flex items-center gap-2 overflow-x-auto px-1">
+        {items.map((t) => {
+          const on = t.id === active;
+          return (
+            <Link key={t.id} href={t.href} scroll={false} aria-current={on ? "page" : undefined} className={cn("flex h-9 shrink-0 items-center rounded-md border px-3.5 text-sm font-semibold transition-colors", on ? "border-pink bg-pink text-black" : "border-white/15 text-white/70 hover:border-white/40 hover:text-white")}>
+              {t.label}
+            </Link>
+          );
+        })}
+      </nav>
+    );
+
+  if (ui === "ledger")
     return (
       <LayoutGroup id="niche">
         <nav aria-label="Category" className="no-scrollbar flex overflow-x-auto border-b">
           {items.map((t) => {
             const on = t.id === active;
             return (
-              <Link key={t.id} href={t.href} scroll={false} aria-current={on ? "page" : undefined} className={cn("relative flex h-9 shrink-0 items-center gap-2 px-3 text-[0.82rem] font-medium", on ? "text-foreground" : "text-muted-foreground hover:text-foreground")}>
+              <Link key={t.id} href={t.href} scroll={false} aria-current={on ? "page" : undefined} className={cn("relative flex h-10 shrink-0 items-center gap-2 px-3 text-sm font-medium", on ? "text-foreground" : "text-muted-foreground hover:text-foreground")}>
                 {t.label}
-                <span className="font-mono text-[0.66rem] text-muted-foreground tabular-nums">{t.count.toLocaleString()}</span>
+                <span className="rounded-full bg-secondary px-1.5 font-mono text-[0.66rem] text-muted-foreground tabular-nums">{t.count.toLocaleString()}</span>
                 {on && <motion.span layoutId="niche-line" className="absolute inset-x-2 -bottom-px h-[2px] bg-pink" transition={{ type: "spring", stiffness: 520, damping: 40 }} />}
               </Link>
             );
@@ -38,24 +52,9 @@ export function NicheTabs({ items, active }: { items: NicheTabItem[]; active: st
       </LayoutGroup>
     );
 
-  if (ui === "gallery")
+  if (ui === "pop")
     return (
-      <nav aria-label="Category" className="flex flex-wrap items-baseline gap-x-7 gap-y-1">
-        {items.map((t) => {
-          const on = t.id === active;
-          return (
-            <Link key={t.id} href={t.href} scroll={false} aria-current={on ? "page" : undefined} className={cn("text-[1.55rem] leading-tight font-light tracking-[-0.03em] transition-colors", on ? "text-foreground" : "text-muted-foreground/70 hover:text-foreground")}>
-              {t.label}
-              <sup className={cn("ml-1 text-[0.62rem] tracking-normal tabular-nums", on ? "text-pink-ink" : "text-muted-foreground")}>{t.count.toLocaleString()}</sup>
-            </Link>
-          );
-        })}
-      </nav>
-    );
-
-  if (ui === "bento")
-    return (
-      <nav aria-label="Category" className="no-scrollbar -mx-1 flex gap-2.5 overflow-x-auto px-1 pb-1">
+      <nav aria-label="Category" className="no-scrollbar -mx-1 flex items-center gap-3 overflow-x-auto px-1 py-2">
         {items.map((t, i) => {
           const on = t.id === active;
           return (
@@ -64,30 +63,16 @@ export function NicheTabs({ items, active }: { items: NicheTabItem[]; active: st
               href={t.href}
               scroll={false}
               aria-current={on ? "page" : undefined}
-              style={on ? undefined : { background: `var(--tile-${(i % 6) + 1})` }}
-              className={cn("flex h-[5.5rem] w-36 shrink-0 flex-col justify-between rounded-[1.4rem] p-3 transition-transform hover:-translate-y-0.5", on && "bg-ink text-ink-foreground")}
+              className={cn(
+                "flex h-11 shrink-0 items-center gap-2 rounded-2xl border-2 border-foreground px-4 text-sm font-black uppercase shadow-[3px_3px_0_0_var(--foreground)] transition-transform hover:-translate-y-0.5",
+                on ? "bg-pink text-black" : "bg-card",
+                i % 3 === 1 && "-rotate-1",
+                i % 3 === 2 && "rotate-1",
+              )}
             >
-              <span className="flex items-start justify-between">
-                <span className="text-2xl leading-none" aria-hidden>
-                  {t.icon}
-                </span>
-                <span className={cn("rounded-full px-2 py-0.5 text-[0.68rem] font-bold tabular-nums", on ? "bg-pink text-black" : "bg-card/80")}>{t.count.toLocaleString()}</span>
-              </span>
-              <span className="truncate text-sm font-bold">{t.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
-    );
-
-  if (ui === "feed")
-    return (
-      <nav aria-label="Category" className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1">
-        {items.map((t) => {
-          const on = t.id === active;
-          return (
-            <Link key={t.id} href={t.href} scroll={false} aria-current={on ? "page" : undefined} className={cn("flex h-8 shrink-0 items-center rounded-lg px-3 text-sm font-medium transition-colors", on ? "bg-foreground text-background" : "bg-secondary hover:bg-accent")}>
+              <span aria-hidden>{t.icon}</span>
               {t.label}
+              <span className="text-[0.68rem] tabular-nums opacity-70">{t.count.toLocaleString()}</span>
             </Link>
           );
         })}

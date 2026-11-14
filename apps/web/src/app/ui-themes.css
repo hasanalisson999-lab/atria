@@ -1,362 +1,224 @@
 /*
- * Interface styles (Settings → Appearance). Each style is one block of design tokens for light, one for dark,
- * and a few rules at the end. The default style (Atria) lives in globals.css. Layout differences (navigation,
- * how ads, brands and the ad popup are drawn) live in the components, which read the style with useUiTheme().
- *
- * <html data-ui="studio"> switches the whole app. The same attribute on any element (the preview cards in
- * Settings) restyles just that element and its children.
+ * Interface styles (Settings → Appearance). Tokens per style live here; what each style shows and how it lays
+ * things out (navigation, ads, brands, the ad popup) lives in the components, which read useUiTheme().
+ * <html data-ui="cinema"> switches the whole app; the same attribute on any element (Settings previews)
+ * restyles just that element. Atria, the default, lives in globals.css.
  */
 
-/* ------------------------------------------------------------------ Studio: a pro tool, compact and precise */
-[data-ui="studio"] {
+/* ------------------------------------------------------------------ Cinema: always dark, immersive, amber light */
+[data-ui="cinema"],
+.dark[data-ui="cinema"],
+.dark [data-ui="cinema"] {
+  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-display: var(--font-archivo), var(--font-inter), ui-sans-serif, sans-serif;
+  --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --ui-display-stretch: 112%;
+  --ui-display-wdth: 112;
+  --radius: 0.6rem;
+
+  --background: #09090a;
+  --foreground: #f5f5f4;
+  --surface: #111113;
+  --surface-2: #18181b;
+  --card: #131315;
+  --card-foreground: #f5f5f4;
+  --popover: #1a1a1d;
+  --popover-foreground: #f5f5f4;
+  --primary: #f5f5f4;
+  --primary-foreground: #09090a;
+  --secondary: #1c1c1f;
+  --secondary-foreground: #f5f5f4;
+  --muted: #1c1c1f;
+  --muted-foreground: #9b9ba3;
+  --accent: #202024;
+  --accent-foreground: #f5f5f4;
+  --border: #232327;
+  --input: #2d2d32;
+  --ring: #ffb020;
+
+  --pink: #ffb020;
+  --pink-soft: #33250a;
+  --pink-ink: #ffc65a;
+  --lime: #1d3312;
+  --lime-ink: #a7e07a;
+  --ink: #f5f5f4;
+  --ink-foreground: #09090a;
+  --ok: #4ade80;
+  --ok-soft: #10261a;
+  --skeleton: #18181b;
+  --skeleton-hi: #222226;
+
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.03);
+  --shadow-lift: 0 24px 60px -24px rgb(0 0 0 / 0.95);
+  --glow-pink: 0 0 0 1px rgb(255 176 32 / 0.5), 0 10px 40px -10px rgb(255 176 32 / 0.55);
+  color-scheme: dark;
+}
+
+/* ------------------------------------------------------------------ Ledger: a crisp research table */
+[data-ui="ledger"] {
   --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --ui-font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
   --ui-display-stretch: 100%;
   --ui-display-wdth: 100;
-  --radius: 0.375rem;
-
-  --background: #fbfbfc;
-  --foreground: #111318;
-  --surface: #f3f4f6;
-  --surface-2: #eceef1;
-  --card: #ffffff;
-  --card-foreground: #111318;
-  --popover: #ffffff;
-  --popover-foreground: #111318;
-  --primary: #111318;
-  --primary-foreground: #ffffff;
-  --secondary: #eef0f3;
-  --secondary-foreground: #111318;
-  --muted: #eef0f3;
-  --muted-foreground: #6a707c;
-  --accent: #f0f2f5;
-  --accent-foreground: #111318;
-  --border: #e3e5e9;
-  --input: #dadde2;
-  --ring: #3b5bfd;
-
-  --pink: #3b5bfd;
-  --pink-soft: #e8edff;
-  --pink-ink: #2338c4;
-  --lime: #c7f0d8;
-  --lime-ink: #11613a;
-  --ink: #111318;
-  --ink-foreground: #ffffff;
-  --skeleton: #eceef1;
-  --skeleton-hi: #f7f8f9;
-
-  --shadow-card: 0 1px 2px rgb(17 19 24 / 0.06);
-  --shadow-lift: 0 8px 24px -10px rgb(17 19 24 / 0.22), 0 1px 3px rgb(17 19 24 / 0.08);
-  --glow-pink: 0 0 0 1px rgb(59 91 253 / 0.5), 0 6px 20px -8px rgb(59 91 253 / 0.5);
-}
-.dark[data-ui="studio"],
-.dark [data-ui="studio"] {
-  --background: #0b0c0e;
-  --foreground: #e7e8eb;
-  --surface: #101114;
-  --surface-2: #16171b;
-  --card: #121317;
-  --card-foreground: #e7e8eb;
-  --popover: #16171b;
-  --popover-foreground: #e7e8eb;
-  --primary: #e7e8eb;
-  --primary-foreground: #0b0c0e;
-  --secondary: #1a1b20;
-  --secondary-foreground: #e7e8eb;
-  --muted: #1a1b20;
-  --muted-foreground: #878c97;
-  --accent: #1c1d22;
-  --accent-foreground: #e7e8eb;
-  --border: #23252b;
-  --input: #2c2e35;
-  --ring: #6680ff;
-
-  --pink: #6680ff;
-  --pink-soft: #171d3d;
-  --pink-ink: #aab8ff;
-  --lime: #12301f;
-  --lime-ink: #8fe0b2;
-  --ink: #e7e8eb;
-  --ink-foreground: #0b0c0e;
-  --skeleton: #16171b;
-  --skeleton-hi: #1e2025;
-
-  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.03);
-  --shadow-lift: 0 12px 30px -12px rgb(0 0 0 / 0.8);
-  --glow-pink: 0 0 0 1px rgb(102 128 255 / 0.55), 0 8px 26px -8px rgb(102 128 255 / 0.55);
-}
-/* Studio is a dense tool: everything sized in rem gets a little smaller. */
-html[data-ui="studio"] {
-  font-size: 14.5px;
-}
-
-/* ------------------------------------------------------------------ Gallery: white walls, framed work */
-[data-ui="gallery"] {
-  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --ui-font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --ui-font-mono: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --ui-display-stretch: 100%;
-  --ui-display-wdth: 100;
-  --radius: 0.125rem;
-
-  --background: #f7f7f5;
-  --foreground: #141414;
-  --surface: #f0efec;
-  --surface-2: #e8e7e3;
-  --card: #ffffff;
-  --card-foreground: #141414;
-  --popover: #ffffff;
-  --popover-foreground: #141414;
-  --primary: #141414;
-  --primary-foreground: #ffffff;
-  --secondary: #ecebe7;
-  --secondary-foreground: #141414;
-  --muted: #ecebe7;
-  --muted-foreground: #7a7872;
-  --accent: #efeeea;
-  --accent-foreground: #141414;
-  --border: #e2e0db;
-  --input: #d8d6d0;
-  --ring: #d93a22;
-
-  --pink: #d93a22;
-  --pink-soft: #fbe6e1;
-  --pink-ink: #ae2811;
-  --lime: #e4ecd6;
-  --lime-ink: #3c5216;
-  --ink: #141414;
-  --ink-foreground: #ffffff;
-  --skeleton: #ebeae6;
-  --skeleton-hi: #f6f5f2;
-
-  --shadow-card: 0 1px 2px rgb(20 20 20 / 0.06), 0 6px 18px -10px rgb(20 20 20 / 0.18);
-  --shadow-lift: 0 2px 4px rgb(20 20 20 / 0.06), 0 22px 44px -22px rgb(20 20 20 / 0.35);
-  --glow-pink: 0 0 0 1px rgb(217 58 34 / 0.45);
-}
-.dark[data-ui="gallery"],
-.dark [data-ui="gallery"] {
-  --background: #141414;
-  --foreground: #efede8;
-  --surface: #1a1a1a;
-  --surface-2: #212121;
-  --card: #1d1d1d;
-  --card-foreground: #efede8;
-  --popover: #222222;
-  --popover-foreground: #efede8;
-  --primary: #efede8;
-  --primary-foreground: #141414;
-  --secondary: #242424;
-  --secondary-foreground: #efede8;
-  --muted: #242424;
-  --muted-foreground: #96938c;
-  --accent: #262626;
-  --accent-foreground: #efede8;
-  --border: #2c2c2c;
-  --input: #363636;
-  --ring: #f0563d;
-
-  --pink: #f0563d;
-  --pink-soft: #3a1c16;
-  --pink-ink: #ff9c8a;
-  --lime: #263018;
-  --lime-ink: #c3d99c;
-  --ink: #efede8;
-  --ink-foreground: #141414;
-  --skeleton: #222222;
-  --skeleton-hi: #2a2a2a;
-
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 24px -12px rgb(0 0 0 / 0.7);
-  --shadow-lift: 0 26px 50px -24px rgb(0 0 0 / 0.85);
-  --glow-pink: 0 0 0 1px rgb(240 86 61 / 0.5);
-}
-[data-ui="gallery"] :is(h1, h2) {
-  font-weight: 300 !important;
-  letter-spacing: -0.035em;
-}
-
-/* ------------------------------------------------------------------ Bento: colour tiles, chunky and friendly */
-[data-ui="bento"] {
-  --ui-font-sans: var(--font-space), var(--font-inter), ui-sans-serif, sans-serif;
-  --ui-font-display: var(--font-space), var(--font-inter), ui-sans-serif, sans-serif;
-  --ui-font-mono: var(--font-space), ui-monospace, monospace;
-  --ui-display-stretch: 100%;
-  --ui-display-wdth: 100;
-  --radius: 1.25rem;
-
-  --background: #efeef4;
-  --foreground: #16151c;
-  --surface: #e7e6ee;
-  --surface-2: #dedce8;
-  --card: #ffffff;
-  --card-foreground: #16151c;
-  --popover: #ffffff;
-  --popover-foreground: #16151c;
-  --primary: #16151c;
-  --primary-foreground: #ffffff;
-  --secondary: #e4e3ec;
-  --secondary-foreground: #16151c;
-  --muted: #e4e3ec;
-  --muted-foreground: #66647a;
-  --accent: #e9e8f0;
-  --accent-foreground: #16151c;
-  --border: #dddbe6;
-  --input: #d2d0de;
-  --ring: #ff5a1f;
-
-  --pink: #ff5a1f;
-  --pink-soft: #ffe4d8;
-  --pink-ink: #c23a06;
-  --lime: #c8f25a;
-  --lime-ink: #33490a;
-  --ink: #16151c;
-  --ink-foreground: #ffffff;
-  --skeleton: #e2e1ea;
-  --skeleton-hi: #f2f1f7;
-
-  /* Tile tints, used by bento tiles in turn. */
-  --tile-1: #ffd9e4;
-  --tile-2: #d4ecff;
-  --tile-3: #ddf7c6;
-  --tile-4: #fff0b8;
-  --tile-5: #e6dbff;
-  --tile-6: #ffe1cc;
-
-  --shadow-card: 0 1px 0 rgb(22 21 28 / 0.04);
-  --shadow-lift: 0 18px 40px -20px rgb(22 21 28 / 0.35);
-  --glow-pink: 0 0 0 2px var(--pink);
-}
-.dark[data-ui="bento"],
-.dark [data-ui="bento"] {
-  --background: #0d0c11;
-  --foreground: #f3f2f8;
-  --surface: #14131a;
-  --surface-2: #1b1a23;
-  --card: #18171f;
-  --card-foreground: #f3f2f8;
-  --popover: #1d1c25;
-  --popover-foreground: #f3f2f8;
-  --primary: #f3f2f8;
-  --primary-foreground: #0d0c11;
-  --secondary: #1f1e28;
-  --secondary-foreground: #f3f2f8;
-  --muted: #1f1e28;
-  --muted-foreground: #9c9ab0;
-  --accent: #22212b;
-  --accent-foreground: #f3f2f8;
-  --border: #26252f;
-  --input: #2f2e3a;
-  --ring: #ff7a45;
-
-  --pink: #ff7a45;
-  --pink-soft: #3a1d10;
-  --pink-ink: #ffb08c;
-  --lime: #c8f25a;
-  --lime-ink: #2b3d08;
-  --ink: #f3f2f8;
-  --ink-foreground: #0d0c11;
-  --skeleton: #1d1c25;
-  --skeleton-hi: #26252f;
-
-  --tile-1: #3a1c28;
-  --tile-2: #142a3d;
-  --tile-3: #1c3216;
-  --tile-4: #362e10;
-  --tile-5: #261d42;
-  --tile-6: #3b2414;
-
-  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.03);
-  --shadow-lift: 0 22px 44px -22px rgb(0 0 0 / 0.9);
-  --glow-pink: 0 0 0 2px var(--pink);
-}
-[data-ui="bento"] :is(h1, h2, .font-display) {
-  letter-spacing: -0.035em;
-  font-weight: 700;
-}
-
-/* ------------------------------------------------------------------ Feed: a social app */
-[data-ui="feed"] {
-  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --ui-font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --ui-font-mono: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --ui-display-stretch: 100%;
-  --ui-display-wdth: 100;
-  --radius: 0.75rem;
+  --radius: 0.3rem;
 
   --background: #ffffff;
-  --foreground: #0f1419;
-  --surface: #f7f9f9;
-  --surface-2: #eff3f4;
+  --foreground: #1f2328;
+  --surface: #f6f8fa;
+  --surface-2: #eef1f4;
   --card: #ffffff;
-  --card-foreground: #0f1419;
+  --card-foreground: #1f2328;
   --popover: #ffffff;
-  --popover-foreground: #0f1419;
-  --primary: #0f1419;
+  --popover-foreground: #1f2328;
+  --primary: #1f2328;
   --primary-foreground: #ffffff;
-  --secondary: #eff3f4;
-  --secondary-foreground: #0f1419;
-  --muted: #eff3f4;
-  --muted-foreground: #536471;
-  --accent: #f2f5f6;
-  --accent-foreground: #0f1419;
-  --border: #e6eaec;
-  --input: #dbe1e4;
-  --ring: #ff2d55;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #1f2328;
+  --muted: #f3f4f6;
+  --muted-foreground: #656d76;
+  --accent: #f6f8fa;
+  --accent-foreground: #1f2328;
+  --border: #e4e7eb;
+  --input: #d0d7de;
+  --ring: #1a7f37;
 
-  --pink: #ff2d55;
-  --pink-soft: #ffe5ea;
-  --pink-ink: #d70f3a;
-  --lime: #d9f7e4;
-  --lime-ink: #0b6b35;
-  --ink: #0f1419;
+  --pink: #1a7f37;
+  --pink-soft: #dcf5e3;
+  --pink-ink: #116329;
+  --lime: #dcf5e3;
+  --lime-ink: #116329;
+  --ink: #1f2328;
   --ink-foreground: #ffffff;
-  --skeleton: #eff3f4;
-  --skeleton-hi: #f9fbfb;
-  --story-ring: conic-gradient(from 210deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75);
+  --skeleton: #eef1f4;
+  --skeleton-hi: #f8f9fb;
 
-  --shadow-card: 0 0 0 1px var(--border);
-  --shadow-lift: 0 10px 30px -12px rgb(15 20 25 / 0.25);
-  --glow-pink: 0 0 0 2px var(--pink);
+  --shadow-card: 0 1px 2px rgb(31 35 40 / 0.06);
+  --shadow-lift: 0 16px 40px -16px rgb(31 35 40 / 0.3);
+  --glow-pink: 0 0 0 1px rgb(26 127 55 / 0.5);
 }
-.dark[data-ui="feed"],
-.dark [data-ui="feed"] {
-  --background: #000000;
-  --foreground: #e7e9ea;
-  --surface: #0a0a0a;
-  --surface-2: #16181c;
-  --card: #000000;
-  --card-foreground: #e7e9ea;
-  --popover: #16181c;
-  --popover-foreground: #e7e9ea;
-  --primary: #e7e9ea;
-  --primary-foreground: #000000;
-  --secondary: #16181c;
-  --secondary-foreground: #e7e9ea;
-  --muted: #16181c;
-  --muted-foreground: #71767b;
-  --accent: #181a1e;
-  --accent-foreground: #e7e9ea;
-  --border: #2f3336;
-  --input: #3a3e42;
-  --ring: #ff375f;
+.dark[data-ui="ledger"],
+.dark [data-ui="ledger"] {
+  --background: #0d1117;
+  --foreground: #e6edf3;
+  --surface: #10151c;
+  --surface-2: #161b22;
+  --card: #0f141a;
+  --card-foreground: #e6edf3;
+  --popover: #161b22;
+  --popover-foreground: #e6edf3;
+  --primary: #e6edf3;
+  --primary-foreground: #0d1117;
+  --secondary: #1a2029;
+  --secondary-foreground: #e6edf3;
+  --muted: #1a2029;
+  --muted-foreground: #8b949e;
+  --accent: #161b22;
+  --accent-foreground: #e6edf3;
+  --border: #252b34;
+  --input: #30363d;
+  --ring: #3fb950;
 
-  --pink: #ff375f;
-  --pink-soft: #3d0f1a;
-  --pink-ink: #ff8aa3;
-  --lime: #0f2e1c;
-  --lime-ink: #7ee2a8;
-  --ink: #e7e9ea;
-  --ink-foreground: #000000;
-  --skeleton: #16181c;
-  --skeleton-hi: #202327;
+  --pink: #3fb950;
+  --pink-soft: #11261a;
+  --pink-ink: #7ee787;
+  --lime: #11261a;
+  --lime-ink: #7ee787;
+  --ink: #e6edf3;
+  --ink-foreground: #0d1117;
+  --skeleton: #161b22;
+  --skeleton-hi: #1e252e;
 
-  --shadow-card: 0 0 0 1px var(--border);
-  --shadow-lift: 0 14px 34px -14px rgb(0 0 0 / 0.9);
-  --glow-pink: 0 0 0 2px var(--pink);
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.03);
+  --shadow-lift: 0 18px 44px -18px rgb(0 0 0 / 0.9);
+  --glow-pink: 0 0 0 1px rgb(63 185 80 / 0.5);
+}
+html[data-ui="ledger"] {
+  font-size: 15px;
+}
+
+/* ------------------------------------------------------------------ Pop: loud, bold, sticker shadows */
+[data-ui="pop"] {
+  --ui-font-sans: var(--font-space), var(--font-inter), ui-sans-serif, sans-serif;
+  --ui-font-display: var(--font-archivo), var(--font-inter), ui-sans-serif, sans-serif;
+  --ui-font-mono: var(--font-space), ui-monospace, monospace;
+  --ui-display-stretch: 125%;
+  --ui-display-wdth: 125;
+  --radius: 1rem;
+
+  --background: #fff5e1;
+  --foreground: #121212;
+  --surface: #ffecc4;
+  --surface-2: #ffe2a6;
+  --card: #ffffff;
+  --card-foreground: #121212;
+  --popover: #ffffff;
+  --popover-foreground: #121212;
+  --primary: #121212;
+  --primary-foreground: #fff5e1;
+  --secondary: #ffe8b8;
+  --secondary-foreground: #121212;
+  --muted: #ffe8b8;
+  --muted-foreground: #6b5733;
+  --accent: #ffeecb;
+  --accent-foreground: #121212;
+  --border: #121212;
+  --input: #121212;
+  --ring: #ff3d7f;
+
+  --pink: #ff3d7f;
+  --pink-soft: #ffd3e3;
+  --pink-ink: #c4004a;
+  --lime: #b9f227;
+  --lime-ink: #2d3d00;
+  --ink: #121212;
+  --ink-foreground: #fff5e1;
+  --skeleton: #ffe6b3;
+  --skeleton-hi: #fff2d6;
+
+  --shadow-card: 3px 3px 0 0 var(--foreground);
+  --shadow-lift: 5px 5px 0 0 var(--foreground);
+  --glow-pink: 4px 4px 0 0 var(--pink);
+}
+.dark[data-ui="pop"],
+.dark [data-ui="pop"] {
+  --background: #121212;
+  --foreground: #fff5e1;
+  --surface: #1b1b1b;
+  --surface-2: #242424;
+  --card: #1b1b1b;
+  --card-foreground: #fff5e1;
+  --popover: #1f1f1f;
+  --popover-foreground: #fff5e1;
+  --primary: #fff5e1;
+  --primary-foreground: #121212;
+  --secondary: #262626;
+  --secondary-foreground: #fff5e1;
+  --muted: #262626;
+  --muted-foreground: #bba985;
+  --accent: #222222;
+  --accent-foreground: #fff5e1;
+  --border: #fff5e1;
+  --input: #fff5e1;
+  --ring: #ff5c94;
+
+  --pink: #ff5c94;
+  --pink-soft: #3d1424;
+  --pink-ink: #ff9cc0;
+  --lime: #b9f227;
+  --lime-ink: #2d3d00;
+  --ink: #fff5e1;
+  --ink-foreground: #121212;
+  --skeleton: #222222;
+  --skeleton-hi: #2c2c2c;
+}
+[data-ui="pop"] :is(h1, h2) {
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
 /* ------------------------------------------------------------------ switching animation */
-/* Changing style plays a circular reveal from where you clicked (View Transitions; skipped if motion is reduced). */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -368,51 +230,50 @@ html[data-ui="studio"] {
   }
 }
 
-/* ================================================================== navigation per style */
-/* Atria: the sidebar. Studio: a slim icon rail. Gallery: a quiet text menu. Bento: a floating pill.
-   Feed: an app bar with icon tabs. Every nav renders on every page; CSS shows the one in use. */
+/* ================================================================== structure per style */
+/* Navigation: Atria the sidebar, Cinema a top bar over the page, Ledger an icon rail, Pop a sticker pill. */
 .ui-rail,
-.ui-gallerynav,
-.ui-pillnav,
-.ui-appbar {
+.ui-cinemabar,
+.ui-popnav {
   display: none;
 }
-[data-ui="studio"] .ui-rail,
-[data-ui="gallery"] .ui-gallerynav,
-[data-ui="bento"] .ui-pillnav,
-[data-ui="feed"] .ui-appbar {
+[data-ui="ledger"] .ui-rail,
+[data-ui="cinema"] .ui-cinemabar,
+[data-ui="pop"] .ui-popnav {
   display: flex;
 }
-:is([data-ui="studio"], [data-ui="gallery"], [data-ui="bento"], [data-ui="feed"]) .ui-sidebar {
+:is([data-ui="cinema"], [data-ui="ledger"], [data-ui="pop"]) .ui-sidebar {
   display: none !important;
 }
 @media (max-width: 1023px) {
-  [data-ui="studio"] .ui-rail {
+  [data-ui="ledger"] .ui-rail {
     display: none;
   }
 }
-[data-ui="feed"] main {
-  max-width: 1180px;
-}
-[data-ui="gallery"] main {
-  max-width: 1440px;
+
+/* What Discover shows. Cinema leads with a featured ad (no title, no brand rows); Ledger has brand as a table
+   column and Pop groups ads by brand, so neither needs the brand rows. */
+[data-ui="cinema"] :is(.ui-hero-title, .ui-brand-rails),
+:is([data-ui="ledger"], [data-ui="pop"]) .ui-brand-rails {
+  display: none;
 }
 
-/* The search bar scrolls away under the styles that have their own sticky header; the feed toolbar docks below it. */
-:is([data-ui="gallery"], [data-ui="bento"], [data-ui="feed"]) .ui-topbar {
+/* The search bar scrolls away under styles with their own sticky header; the feed toolbar docks below it. */
+:is([data-ui="cinema"], [data-ui="pop"]) .ui-topbar {
   position: relative;
   z-index: 10;
 }
-[data-ui="gallery"] .ui-toolbar {
-  top: 0;
-}
-[data-ui="bento"] .ui-toolbar {
-  top: 4.6rem;
+[data-ui="pop"] .ui-toolbar {
+  top: 4.75rem;
 }
 
-/* A transparency checkerboard behind contained creatives (Studio's contact sheet and inspector). */
-.checker {
-  background-color: var(--surface);
-  background-image: repeating-conic-gradient(var(--surface-2) 0 25%, transparent 0 50%);
-  background-size: 14px 14px;
+/* Pop: every control is a sticker with a hard shadow that presses in. */
+[data-ui="pop"] :is(button, a)[class*="rounded-full"]:not([class*="size-"]) {
+  border: 2px solid var(--foreground);
+  box-shadow: 2px 2px 0 0 var(--foreground);
+  font-weight: 700;
+}
+[data-ui="pop"] :is(button, a)[class*="rounded-full"]:not([class*="size-"]):active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
 }

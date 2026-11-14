@@ -9,7 +9,27 @@ import { cn } from "@/lib/utils";
 /** A tiny, live mock of each style's own layout, drawn with its own tokens (data-ui scopes them to this card). */
 function Preview({ id }: { id: UiThemeId }) {
   const shell = "relative h-36 overflow-hidden bg-background text-foreground";
-  if (id === "studio")
+  if (id === "cinema")
+    return (
+      <div data-ui={id} className={cn(shell, "flex flex-col gap-2 p-3")}>
+        <div className="flex gap-3">
+          <span className="h-14 w-10 rounded-md bg-pink/80" />
+          <span className="flex flex-1 flex-col gap-1.5 pt-1">
+            <span className="h-1.5 w-8 rounded-full bg-pink" />
+            <span className="h-3 w-24 rounded-full bg-foreground/80" />
+            <span className="h-3 w-16 rounded-full bg-foreground/80" />
+            <span className="mt-1 h-3.5 w-14 rounded-full bg-pink" />
+          </span>
+        </div>
+        <span className="h-1.5 w-16 rounded-full bg-foreground/50" />
+        <div className="flex gap-1.5">
+          {[10, 7, 10, 7, 10].map((w, i) => (
+            <span key={i} className="h-12 rounded-md bg-foreground/20" style={{ width: w * 4 }} />
+          ))}
+        </div>
+      </div>
+    );
+  if (id === "ledger")
     return (
       <div data-ui={id} className={cn(shell, "flex")}>
         <div className="flex w-7 flex-col items-center gap-1.5 border-r bg-surface py-2">
@@ -17,80 +37,42 @@ function Preview({ id }: { id: UiThemeId }) {
             <span key={i} className={cn("size-3 rounded-[3px]", i === 0 ? "bg-pink" : "bg-foreground/15")} />
           ))}
         </div>
-        <div className="flex flex-1 flex-col gap-1.5 p-2">
-          <div className="flex gap-2 border-b pb-1">
-            {[10, 8, 9].map((w, i) => (
-              <span key={i} className={cn("h-1.5 rounded-full", i === 0 ? "bg-foreground/70" : "bg-foreground/20")} style={{ width: w * 4 }} />
+        <div className="flex flex-1 flex-col p-2">
+          <div className="flex gap-2 border-b bg-surface px-1 py-1">
+            {[6, 10, 16, 6].map((w, i) => (
+              <span key={i} className="h-1.5 rounded-full bg-foreground/30" style={{ width: w * 3 }} />
             ))}
           </div>
-          <div className="grid flex-1 grid-cols-4 gap-px overflow-hidden rounded-[3px] border bg-border">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <span key={i} className="checker flex items-center justify-center bg-card p-1">
-                <span className={cn("h-full w-2/3 rounded-[2px]", i === 2 ? "bg-pink/70" : "bg-foreground/20")} />
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  if (id === "gallery")
-    return (
-      <div data-ui={id} className={cn(shell, "flex flex-col")}>
-        <div className="flex items-center justify-center gap-3 border-b py-2">
-          {[0, 1, 2, 3].map((i) => (
-            <span key={i} className="h-1 w-6 rounded-full bg-foreground/30" />
-          ))}
-        </div>
-        <div className="flex flex-1 items-start justify-center gap-4 px-4 pt-3">
-          {["h-14", "h-16", "h-12"].map((h, i) => (
-            <span key={i} className="flex w-14 flex-col gap-1">
-              <span className="bg-card p-1.5 shadow-[var(--shadow-card)]">
-                <span className={cn("block w-full", h, i === 1 ? "bg-pink/60" : "bg-surface-2")} />
-              </span>
-              <span className="h-1 w-8 bg-foreground/50" />
-              <span className="h-1 w-10 bg-foreground/15" />
-            </span>
+          {[0, 1, 2, 3].map((r) => (
+            <div key={r} className={cn("flex items-center gap-2 border-b px-1 py-1.5", r === 1 && "bg-pink-soft")}>
+              <span className="size-5 rounded-[3px] bg-foreground/25" />
+              <span className="h-1.5 w-8 rounded-full bg-foreground/50" />
+              <span className="h-1.5 w-16 rounded-full bg-foreground/20" />
+              <span className="ml-auto h-1.5 w-5 rounded-full bg-pink/70" />
+            </div>
           ))}
         </div>
       </div>
     );
-  if (id === "bento")
+  if (id === "pop")
     return (
-      <div data-ui={id} className={cn(shell, "flex flex-col items-center gap-2 p-2")}>
-        <span className="flex gap-1 rounded-full border bg-card p-1">
-          {[0, 1, 2, 3].map((i) => (
-            <span key={i} className={cn("h-2.5 w-7 rounded-full", i === 0 ? "bg-[var(--tile-2)]" : "bg-foreground/10")} />
-          ))}
+      <div data-ui={id} className={cn(shell, "flex flex-col items-center gap-2 p-2.5")}>
+        <span className="flex gap-1 rounded-full border-2 border-foreground bg-card p-0.5 shadow-[2px_2px_0_0_var(--foreground)]">
+          <span className="h-2.5 w-6 rounded-full bg-lime" />
+          <span className="h-2.5 w-7 rounded-full bg-pink" />
+          <span className="h-2.5 w-7 rounded-full" />
         </span>
-        <div className="grid w-full flex-1 grid-cols-3 gap-1.5">
-          {[1, 2, 3, 4, 5].map((t) => (
-            <span key={t} className={cn("rounded-xl", t === 1 && "col-span-2")} style={{ background: `var(--tile-${t})` }} />
-          ))}
-          <span className="rounded-xl bg-pink" />
-        </div>
-      </div>
-    );
-  if (id === "feed")
-    return (
-      <div data-ui={id} className={cn(shell, "flex flex-col")}>
-        <div className="flex h-6 items-center justify-center gap-4 border-b">
-          {[0, 1, 2, 3].map((i) => (
-            <span key={i} className={cn("size-2.5 rounded-[3px]", i === 0 ? "bg-pink" : "bg-foreground/25")} />
-          ))}
-        </div>
-        <div className="flex gap-1.5 px-3 pt-2">
-          {[0, 1, 2, 3, 4].map((i) => (
-            <span key={i} className="size-5 rounded-full p-[1.5px]" style={{ background: "var(--story-ring)" }}>
-              <span className="block size-full rounded-full border-2 border-background bg-surface-2" />
-            </span>
-          ))}
-        </div>
-        <div className="mx-auto mt-2 flex w-28 flex-1 flex-col overflow-hidden rounded-t-md border">
-          <span className="flex items-center gap-1 p-1">
-            <span className="size-2.5 rounded-full bg-foreground/30" />
-            <span className="h-1 w-8 rounded-full bg-foreground/40" />
+        <div className="flex w-full flex-1 flex-col gap-1.5 rounded-xl border-2 border-foreground bg-card p-2 shadow-[3px_3px_0_0_var(--foreground)]">
+          <span className="flex items-center gap-1.5">
+            <span className="size-4 rounded-full border-2 border-foreground" />
+            <span className="h-2 w-12 rounded-full bg-foreground" />
+            <span className="h-2.5 w-6 rotate-3 rounded-full bg-pink" />
           </span>
-          <span className="flex-1 bg-foreground/80" />
+          <span className="flex flex-1 gap-1.5">
+            {[0, 1, 2].map((i) => (
+              <span key={i} className="w-9 rounded-md border-2 border-foreground bg-foreground/10" />
+            ))}
+          </span>
         </div>
       </div>
     );

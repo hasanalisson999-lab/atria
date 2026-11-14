@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { AdPanelProvider } from "@/components/ad/ad-panel";
-import { AppBar, GalleryNav, PillNav, Rail } from "@/components/shell/alt-nav";
+import { CinemaBar, PopNav, Rail } from "@/components/shell/alt-nav";
 import { Sidebar } from "@/components/shell/sidebar";
 import { Topbar } from "@/components/shell/topbar";
 import { WheelScroll } from "@/components/shell/wheel-scroll";
@@ -27,9 +27,9 @@ export default function AppLayout({ children }: LayoutProps<"/">) {
         </Suspense>
         <div className="flex min-w-0 flex-1 flex-col">
           <Suspense fallback={null}>
-            <GalleryNav />
-            <AppBar />
-            <PillNav />
+            <CinemaBar />
+
+            <PopNav />
           </Suspense>
           <Suspense fallback={<TopbarFallback />}>
             <Topbar />

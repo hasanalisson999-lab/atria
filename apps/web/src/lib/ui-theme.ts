@@ -9,10 +9,9 @@ import { useCallback, useSyncExternalStore } from "react";
  */
 export const UI_THEMES = [
   { id: "atria", name: "Atria", description: "Clean and bright with wide display type. The original." },
-  { id: "studio", name: "Studio", description: "A pro tool. Icon rail, compact type, contact-sheet ads and an inspector." },
-  { id: "gallery", name: "Gallery", description: "A museum. White walls, framed ads with labels, quiet text menu." },
-  { id: "bento", name: "Bento", description: "Playful colour tiles, a floating pill menu and a popup that fits one screen." },
-  { id: "feed", name: "Feed", description: "A social app. Brands as stories, ads as posts, AI notes as comments." },
+  { id: "cinema", name: "Cinema", description: "Dark and immersive. A featured ad, shelves you scroll sideways, a full-screen theater for each ad." },
+  { id: "ledger", name: "Ledger", description: "A research table. One row per ad, brand as a column, details slide in from the side." },
+  { id: "pop", name: "Pop", description: "Loud and bold. Ads grouped by brand, sticker shadows, details rise up from the bottom." },
 ] as const;
 
 export type UiThemeId = (typeof UI_THEMES)[number]["id"];

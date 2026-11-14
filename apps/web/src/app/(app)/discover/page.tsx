@@ -129,7 +129,7 @@ async function Discover({ searchParams }: { searchParams: PageProps<"/discover">
   return (
     <>
       <div className="stagger flex flex-col gap-5">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="ui-hero-title flex flex-wrap items-end justify-between gap-4">
           <h1 className="font-display display-tight text-[2.2rem] font-semibold sm:text-[2.8rem]">
             {q ? (
               <>
@@ -165,8 +165,10 @@ async function Discover({ searchParams }: { searchParams: PageProps<"/discover">
           }))}
         />
 
+        <div className="ui-brand-rails flex flex-col gap-5">
         {allBrands.length > 0 && <BrandRail brands={railItems(allBrands, query)} all={{ href: feedHref(query, { brand: undefined }), on: !query.brand }} />}
         {newBrands.length > 2 && !query.brand && <BrandRail brands={railItems(newBrands, query)} title="New & challenger brands" hint="see how they're innovating" />}
+        </div>
         {isCategory && <CategorySeeder key={niche} categoryId={niche} label={label} count={c[niche] ?? 0} remaining={remaining} />}
       </div>
 
