@@ -7,6 +7,7 @@ import { BrandAvatar } from "@/components/brand-avatar";
 import type { FeedAd } from "@/lib/server/ads";
 import { prefetchAnalysis } from "@/lib/analysis-queue";
 import { adReason, ageChip } from "@/lib/format";
+import { sized, sizedSet } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import { hasUserActivation, setVolume, useVolume } from "@/lib/volume";
 
@@ -63,6 +64,7 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [imgFailed, setImgFailed] = useState(false);
+  const [useOriginal, setUseOriginal] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [slide, setSlide] = useState(0);
   const [soundBlocked, setSoundBlocked] = useState(false);
@@ -154,7 +156,18 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
         <div className="absolute inset-0 flex transition-transform duration-500 ease-[var(--ease-out-quart)]" style={{ transform: `translateX(-${slide * 100}%)` }}>
           {gallery.map((src, i) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={src} src={src} alt="" referrerPolicy="no-referrer" loading={i === 0 && index < 10 ? "eager" : "lazy"} onLoad={i === 0 ? (e) => setRatio(e.currentTarget.naturalWidth, e.currentTarget.naturalHeight) : undefined} className="h-full w-full shrink-0 object-cover" />
+            <img
+              key={src}
+              src={sized(src, 720)}
+              alt=""
+              referrerPolicy="no-referrer"
+              decoding="async"
+              loading={i === 0 && index < 10 ? "eager" : "lazy"}
+              onLoad={i === 0 ? (e) => setRatio(e.currentTarget.naturalWidth, e.currentTarget.naturalHeight) : undefined}
+              // The resizer can't reach a few CDN links: fall back to the original image.
+              onError={(e) => e.currentTarget.src !== src && (e.currentTarget.src = src)}
+              className="h-full w-full shrink-0 object-cover"
+            />
           ))}
         </div>
       ) : showImage ? (
@@ -162,15 +175,20 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
           {!imgLoaded && <div className="skeleton-shimmer absolute inset-0" />}
           {/* eslint-disable-next-line @next/next/no-img-element -- remote CDN media */}
           <img
-            src={ad.thumbnail_url!}
+            // A resized WebP (about 30x smaller than the Ad Library original); the original is the fallback.
+            src={useOriginal ? ad.thumbnail_url! : sized(ad.thumbnail_url, 720)}
+            srcSet={useOriginal ? undefined : sizedSet(ad.thumbnail_url, 360)}
+            sizes="(min-width: 1280px) 22vw, (min-width: 640px) 33vw, 50vw"
             alt=""
             referrerPolicy="no-referrer"
+            decoding="async"
             loading={index < 10 ? "eager" : "lazy"}
+            fetchPriority={index < 4 ? "high" : undefined}
             onLoad={(e) => {
               setRatio(e.currentTarget.naturalWidth, e.currentTarget.naturalHeight);
               setImgLoaded(true);
             }}
-            onError={() => setImgFailed(true)}
+            onError={() => (useOriginal ? setImgFailed(true) : setUseOriginal(true))}
             className={cn("absolute inset-0 size-full object-cover transition-[opacity,transform] duration-700 ease-[var(--ease-out-quart)]", imgLoaded ? "opacity-100" : "opacity-0", hovering && !isVideo && "scale-[1.03]")}
           />
         </>

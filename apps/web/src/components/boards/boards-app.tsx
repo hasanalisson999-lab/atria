@@ -40,6 +40,7 @@ import { EditableText } from "@/components/lab/lab-doc";
 import type { FeedAd } from "@/lib/server/ads";
 import type { BoardDetail, BoardSummary } from "@/lib/server/boards";
 import { useUrlState } from "@/lib/url-state";
+import { sized } from "@/lib/media";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -357,7 +358,8 @@ function Cover({ b }: { b: BoardSummary }) {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={src}
-            src={src}
+            src={sized(src, 640)}
+            onError={(e) => e.currentTarget.src !== src && (e.currentTarget.src = src)}
             alt=""
             loading="lazy"
             referrerPolicy="no-referrer"

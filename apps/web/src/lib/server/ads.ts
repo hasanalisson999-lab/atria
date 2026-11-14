@@ -2,6 +2,7 @@ import "server-only";
 import { CATEGORY_IDS, normalizeAdLibraryItem } from "@signal/shared";
 import { EMBED_MODEL, toVector, voyageEmbed } from "@signal/shared/ai";
 import { fromPostgresJs } from "@signal/shared/db";
+import { after } from "next/server";
 import { query, type Result } from "./db";
 
 /** Every category (see packages/shared/src/discovery/catalog.ts). */
@@ -165,9 +166,19 @@ export function getFeed(p: FeedParams): Promise<Result<{ ads: FeedAd[]; total: n
       order by ${diverse ? sql`y.br,` : sql``} ${sql.unsafe(orderText.replace(/x./g, "y."))}`;
     if (fresh && rows.length) {
       const grps = rows.map((r) => (r as unknown as { grp: string }).grp);
-      // Fire and forget: the response doesn't wait for the "seen" bookkeeping.
-      void sql`insert into public.feed_impressions (grp) select unnest(${grps}::text[])
-                on conflict (grp) do update set shown_at = now(), times = public.feed_impressions.times + 1`.catch(() => undefined);
+      // The response doesn't wait for the "seen" bookkeeping, but the platform keeps running until it's written
+      // (a bare unawaited query can be frozen mid-flight on Vercel and leave a connection stuck).
+      const record = () =>
+        sql`insert into public.feed_impressions (grp) select unnest(${grps}::text[])
+            on conflict (grp) do update set shown_at = now(), times = public.feed_impressions.times + 1`.then(
+          () => undefined,
+          () => undefined,
+        );
+      try {
+        after(record);
+      } catch {
+        void record(); // outside a request (scripts)
+      }
     }
     const ads: FeedAd[] = rows.map(({ raw, rn: _rn, br: _br, ...rest }) => {
       void _rn;

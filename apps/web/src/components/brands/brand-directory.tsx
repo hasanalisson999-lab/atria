@@ -11,6 +11,7 @@ import { BrandAvatar } from "@/components/brand-avatar";
 import { IgnoreButton, TrackButton } from "@/components/brands/track-button";
 import type { BrandIndexRow, BrandListRow } from "@/lib/server/ads";
 import { normName } from "@/lib/norm";
+import { sized } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import { useUrlState } from "@/lib/url-state";
 
@@ -347,11 +348,12 @@ function Thumb({ src, className }: { src?: string; className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element -- remote ad creative
     <img
-      src={src}
+      src={sized(src, 480)}
       alt=""
       referrerPolicy="no-referrer"
       loading="lazy"
       decoding="async"
+      onError={(e) => e.currentTarget.src !== src && (e.currentTarget.src = src)}
       className={cn("size-full object-cover transition-transform duration-700 ease-[var(--ease-out-quart)] group-hover/b:scale-[1.04]", className)}
     />
   );
