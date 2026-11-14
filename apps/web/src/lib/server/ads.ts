@@ -346,7 +346,7 @@ export function getBrandList(tab: BrandTab): Promise<Result<BrandListRow[]>> {
              coalesce((select array_agg(t) from (select distinct on (coalesce(x.creative_group, x.id::text)) x.thumbnail_url as t, x.start_date
                         from public.ads x where x.brand_id = b.id and x.thumbnail_url is not null
                         order by coalesce(x.creative_group, x.id::text), x.start_date desc nulls last) z
-                       where t is not null limit 4), '{}') as thumbs,
+                       where t is not null limit 3), '{}') as thumbs,
              array(select (select count(distinct coalesce(y.creative_group, y.id::text))::int from public.ads y
                            where y.brand_id = b.id and y.start_date >= current_date - (w * 7 + 7) and y.start_date < current_date - (w * 7))
                    from generate_series(7, 0, -1) w) as spark

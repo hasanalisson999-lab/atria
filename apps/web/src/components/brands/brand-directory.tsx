@@ -54,6 +54,18 @@ export function BrandDirectory({
     return [...rows].sort(by[sort]);
   }, [rows, sort]);
 
+  // Hundreds of cards with three images each are heavy: render a page at a time and add more on scroll.
+  const PAGE = 60;
+  const [visible, setVisible] = useState(PAGE);
+  const sentinel = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && setVisible((v) => v + PAGE), { rootMargin: "1200px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [shown.length, visible]);
+
   // "/" focuses the search from anywhere on the page.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -135,12 +147,14 @@ export function BrandDirectory({
           {shown.length ? (
             <motion.ul layout className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
               <AnimatePresence initial={false}>
-                {shown.map((b, i) => (
+                {shown.slice(0, visible).map((b, i) => (
                   <BrandCard key={b.id} b={b} index={i} />
                 ))}
               </AnimatePresence>
             </motion.ul>
-          ) : (
+          ) : null}
+          {shown.length > visible && <div ref={sentinel} aria-hidden className="h-px" />}
+          {shown.length ? null : (
             <div className="flex flex-col items-center gap-2 rounded-[26px] border p-12 text-center">
               <SearchX className="size-6 text-muted-foreground" />
               <p className="text-sm font-medium">{tab === "tracked" ? "You're not tracking anyone yet" : "Nothing here yet"}</p>

@@ -127,7 +127,7 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
   const showImage = ad.thumbnail_url && !imgFailed;
   const age = ageChip(ad.days_running);
   const reason = adReason(ad);
-  const REASON_TONE = { hot: "bg-pink text-[#0a0a0b]", scaled: "bg-ink text-ink-foreground", new: "bg-lime text-lime-ink", tracked: "bg-white/90 text-[#0a0a0b]" } as const;
+  const REASON_TONE = { hot: "bg-pink text-[#0a0a0b]", scaled: "bg-ink text-ink-foreground", new: "bg-lime text-lime-ink", tracked: "bg-secondary text-foreground" } as const;
 
   return (
     <div className="group/card flex flex-col gap-2" style={{ animation: "var(--animate-enter)", animationDelay: `${Math.min(index % 48, 15) * 35}ms` }}>
@@ -202,18 +202,6 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
         />
       )}
 
-      {/* At rest: one chip at most, saying why this ad is worth a look */}
-      {reason && (
-        <span
-          title={reason.why}
-          className={cn(
-            "pointer-events-none absolute top-2.5 left-2.5 z-[2] inline-flex h-6 items-center rounded-full px-2.5 text-[0.66rem] font-semibold shadow-sm transition-opacity duration-200 group-hover/tile:opacity-0",
-            REASON_TONE[reason.tone],
-          )}
-        >
-          {reason.label}
-        </span>
-      )}
 
       {/* Carousel controls */}
       {gallery.length > 1 && (
@@ -276,7 +264,13 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
         <button type="button" onClick={() => onOpen(ad.id)} className="flex min-w-0 flex-1 items-center gap-2 text-left">
           <BrandAvatar name={ad.brand_name} src={ad.brand_logo} fallbackSrc={ad.brand_logo_small} className="size-6" />
           <span className="min-w-0 flex-1 truncate text-[0.8rem] font-semibold">{ad.brand_name ?? "Unknown brand"}</span>
-          <span className="flex shrink-0 items-center gap-1 text-[0.7rem] text-muted-foreground tabular-nums group-focus-within/card:hidden group-hover/card:hidden">
+          <span className="flex shrink-0 items-center gap-1.5 text-[0.7rem] text-muted-foreground tabular-nums group-focus-within/card:hidden group-hover/card:hidden">
+            {/* Why this ad is worth a look, under the creative so it never covers it. */}
+            {reason && (
+              <span title={reason.why} className={cn("inline-flex h-5 items-center rounded-full px-2 text-[0.62rem] font-semibold", REASON_TONE[reason.tone])}>
+                {reason.label}
+              </span>
+            )}
             <span className={cn("size-1.5 rounded-full", ad.is_active ? "bg-ok" : "bg-muted-foreground/50")} />
             {age ?? "—"}
           </span>
