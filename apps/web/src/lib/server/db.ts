@@ -15,7 +15,7 @@ export function getSql(): Sql | DbUnavailable {
   const st = envStatus().find((s) => s.key === "DATABASE_URL")!;
   if (st.state === "missing") return { ok: false, reason: "DATABASE_URL is not set in .env" };
   if (st.state === "invalid") return { ok: false, reason: `DATABASE_URL ${st.reason} — add your Supabase database password to .env` };
-  globalForDb.__signalSql ??= createSql(process.env.DATABASE_URL!, { max: 3, appName: "signal-web" });
+  globalForDb.__signalSql ??= createSql(process.env.DATABASE_URL!, { max: 8, appName: "signal-web" });
   return globalForDb.__signalSql;
 }
 
@@ -31,7 +31,7 @@ const globalForBg = globalThis as unknown as { __signalBgSql?: Sql };
 export function getBackgroundSql(): Sql | DbUnavailable {
   const main = getSql();
   if (isUnavailable(main)) return main;
-  globalForBg.__signalBgSql ??= createSql(process.env.DATABASE_URL!, { max: 2, appName: "signal-web-bg" });
+  globalForBg.__signalBgSql ??= createSql(process.env.DATABASE_URL!, { max: 3, appName: "signal-web-bg" });
   return globalForBg.__signalBgSql;
 }
 

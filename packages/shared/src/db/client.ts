@@ -15,6 +15,9 @@ export function createSql(databaseUrl: string, opts: { max?: number; appName?: s
     max: opts.max ?? 5,
     // Supabase poolers don't support prepared statements in transaction mode; harmless in session mode.
     prepare: false,
+    // Never pipeline several queries on one connection: Supabase's transaction pooler (port 6543, used in
+    // production) hangs or cancels pipelined queries. Extra queries wait for a free connection instead.
+    max_pipeline: 1,
     idle_timeout: 30,
     connect_timeout: 15,
     connection: { application_name: opts.appName ?? "signal" },
