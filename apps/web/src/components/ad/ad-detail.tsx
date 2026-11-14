@@ -149,9 +149,23 @@ export function AdDetailView({ ad }: { ad: AdDetail }) {
   const [copied, setCopied] = useState(false);
   const a = fresh;
   const whyList = (a?.why_it_works ?? "").split(/\n+/).map((x) => x.trim()).filter(Boolean).slice(0, 3);
-  const libraryUrl = `https://www.facebook.com/ads/library/?id=${ad.source_ad_id}`;
   const reason = adReason(ad);
   const versions = Math.max(ad.variant_list.length + 1, ad.variations_count);
+  // Where "Shop now" goes: the ad's landing page, else a variant's, else the brand's own website.
+  const variantUrl = ad.variant_list.find((v) => v.landing_url)?.landing_url ?? null;
+  const destination = ad.landing_url
+    ? { url: ad.landing_url, label: "Shop now", domain: ad.landing_domain }
+    : variantUrl
+      ? { url: variantUrl, label: "Shop now", domain: hostOf(variantUrl) }
+      : ad.brand_website
+        ? { url: `https://${ad.brand_website.replace(/^https?:\/\//, "")}`, label: "Visit site", domain: ad.brand_website.replace(/^https?:\/\/(www\.)?/, "") }
+        : null;
+  // The original ad in its public library, for every ad with a library id.
+  const libraryUrl = /^\d+$/.test(ad.source_ad_id)
+    ? ad.brand_platform === "tiktok"
+      ? `https://library.tiktok.com/ads/detail/?ad_id=${ad.source_ad_id}`
+      : `https://www.facebook.com/ads/library/?id=${ad.source_ad_id}`
+    : null;
 
   const request = async () => {
     // Shared with hover-prefetch: if the tile already started it, this just waits for that result.
@@ -234,16 +248,17 @@ export function AdDetailView({ ad }: { ad: AdDetail }) {
           </div>
 
           <div className="flex items-center gap-2">
-            {ad.landing_url ? (
+            {destination ? (
               <a
-                href={ad.landing_url}
+                href={destination.url}
                 target="_blank"
                 rel="noreferrer noopener"
-                title={ad.landing_domain ?? undefined}
+                title={destination.domain ?? undefined}
                 className="group/shop inline-flex h-12 min-w-0 flex-1 items-center justify-between gap-3 rounded-full bg-pink pr-1.5 pl-5 text-sm font-semibold text-[#0a0a0b] transition-shadow duration-300 hover:shadow-[var(--glow-pink)]"
               >
                 <span className="truncate">
-                  Shop now{ad.landing_domain ? <span className="ml-1.5 font-normal opacity-70">{ad.landing_domain}</span> : null}
+                  {destination.label}
+                  {destination.domain ? <span className="ml-1.5 font-normal opacity-70">{destination.domain}</span> : null}
                 </span>
                 <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white">
                   <ArrowUpRight className="size-4 transition-transform duration-300 group-hover/shop:rotate-45" />
@@ -261,9 +276,18 @@ export function AdDetailView({ ad }: { ad: AdDetail }) {
             >
               <Wand2 className="size-4 text-pink" /> Remix
             </Link>
-            <a href={libraryUrl} target="_blank" rel="noreferrer" title="Open in Meta Ad Library" className="grid size-12 shrink-0 place-items-center rounded-full border bg-card transition-colors hover:border-foreground/25">
-              <ExternalLink className="size-4" />
-            </a>
+            {libraryUrl && (
+              <a
+                href={libraryUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                title={`Open this ad in the ${ad.brand_platform === "tiktok" ? "TikTok" : "Meta"} Ad Library`}
+                aria-label="Open in the Ad Library"
+                className="grid size-12 shrink-0 place-items-center rounded-full border bg-card transition-colors hover:border-foreground/25"
+              >
+                <ExternalLink className="size-4" />
+              </a>
+            )}
           </div>
         </header>
 
@@ -467,4 +491,13 @@ export function AdDetailView({ ad }: { ad: AdDetail }) {
       </div>
     </div>
   );
+}
+
+/** "https://www.shop.com/x" -> "shop.com" (null if it isn't a URL). */
+function hostOf(url: string): string | null {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return null;
+  }
 }

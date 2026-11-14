@@ -286,15 +286,19 @@ export interface AdDetail extends FeedAd {
   analysis: AdAnalysis | null;
   brand_category: string | null;
   brand_likes: number | null;
+  /** The brand's own website (e.g. "oneletic.com"): the fallback destination when an ad has no landing page. */
+  brand_website: string | null;
+  /** "meta" or "tiktok": which public ad library the ad can be opened in. */
+  brand_platform: string | null;
   siblings: number;
 }
 
 export function getAd(id: string): Promise<Result<AdDetail | null>> {
   return query(async (sql) => {
     if (!/^[0-9a-f-]{36}$/i.test(id)) return null;
-    const [row] = await sql<(FeedAd & { description: string | null; countries: string[]; end_date: string | null; first_seen_at: string; creative_hash: string | null; creative_group: string | null; raw: unknown; brand_category: string | null; brand_likes: number | null })[]>`
+    const [row] = await sql<(FeedAd & { description: string | null; countries: string[]; end_date: string | null; first_seen_at: string; creative_hash: string | null; creative_group: string | null; raw: unknown; brand_category: string | null; brand_likes: number | null; brand_website: string | null; brand_platform: string | null })[]>`
       select ${sql.unsafe(AD_COLUMNS)}, a.description, a.countries, a.end_date::text as end_date, a.first_seen_at, a.creative_hash, a.creative_group, a.raw,
-             b.category as brand_category, b.page_likes as brand_likes
+             b.category as brand_category, b.page_likes as brand_likes, b.website_domain as brand_website, b.platform::text as brand_platform
       from public.ads a left join public.brands b on b.id = a.brand_id where a.id = ${id}`;
     if (!row) return null;
     // Analysis is shared across the creative group: analyzing one copy covers all duplicates.
