@@ -15,3 +15,9 @@ coverage/
 
 # local benchmark output (raw scraped data)
 reports/benchmark-raw/
+
+# vercel
+.vercel
+
+.vercel
+.env*
