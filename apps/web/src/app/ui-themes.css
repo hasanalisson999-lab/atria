@@ -375,3 +375,102 @@ body {
     animation: none !important;
   }
 }
+
+/* ================================================================== layout & components per style */
+/* Each style gets its own navigation and its own button / card / tile treatment, not just colours. */
+
+/* Navigation: Atria and Neon use the sidebar; Paper and Brutal a masthead; Glass a floating dock. */
+.ui-topnav,
+.ui-dock {
+  display: none;
+}
+:is([data-ui="paper"], [data-ui="brutal"]) .ui-topnav {
+  display: block;
+}
+[data-ui="glass"] .ui-dock {
+  display: flex;
+}
+:is([data-ui="paper"], [data-ui="brutal"], [data-ui="glass"]) .ui-sidebar {
+  display: none !important;
+}
+[data-ui="glass"] main {
+  padding-bottom: 7.5rem;
+}
+
+/* ---------------------------------------------------------------- Paper: squared editorial controls */
+[data-ui="paper"] :is(button, a, span, label)[class*="rounded-full"]:not([class*="size-"]) {
+  border-radius: 6px;
+}
+[data-ui="paper"] main {
+  max-width: 1320px;
+}
+[data-ui="paper"] article[role="button"] {
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--border);
+}
+[data-ui="paper"] article[role="button"]:hover {
+  transform: none;
+  box-shadow: 0 0 0 1px var(--foreground);
+}
+
+/* ---------------------------------------------------------------- Neon: gradient actions, glowing tiles */
+[data-ui="neon"] :is(button, a).bg-foreground {
+  background-image: linear-gradient(120deg, var(--pink), var(--lime));
+  color: #ffffff;
+}
+[data-ui="neon"] .ui-sidebar {
+  background-image: linear-gradient(180deg, var(--surface), var(--background));
+}
+[data-ui="neon"] .ui-sidebar a[aria-current="page"] {
+  box-shadow: var(--glow-pink);
+  border-radius: 0.75rem;
+}
+[data-ui="neon"] article[role="button"] {
+  transition:
+    transform 0.3s var(--ease-out-quart),
+    box-shadow 0.3s var(--ease-out-quart);
+}
+[data-ui="neon"] article[role="button"]:hover {
+  box-shadow: var(--glow-pink);
+}
+
+/* ---------------------------------------------------------------- Brutal: hard shadows that press in */
+[data-ui="brutal"] .border {
+  border-width: 2px;
+}
+[data-ui="brutal"] :is(button, a)[class*="rounded-full"]:not([class*="size-"]):not([aria-current]) {
+  border: 2px solid var(--foreground);
+  box-shadow: 3px 3px 0 0 var(--foreground);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
+}
+[data-ui="brutal"] :is(button, a)[class*="rounded-full"]:not([class*="size-"]):not([aria-current]):active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--foreground);
+}
+[data-ui="brutal"] article[role="button"] {
+  box-shadow: 0 0 0 2px var(--foreground);
+}
+[data-ui="brutal"] article[role="button"]:hover {
+  transform: translate(-3px, -3px);
+  box-shadow:
+    0 0 0 2px var(--foreground),
+    6px 6px 0 0 var(--pink);
+}
+
+/* ---------------------------------------------------------------- Glass: frosted, softer, rounder */
+[data-ui="glass"] :is(button, a)[class*="rounded-full"].border {
+  background-color: rgb(255 255 255 / 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.dark[data-ui="glass"] :is(button, a)[class*="rounded-full"].border {
+  background-color: rgb(255 255 255 / 0.06);
+}
+[data-ui="glass"] article[role="button"] {
+  border-radius: 1.5rem;
+}

@@ -109,7 +109,7 @@ export function Sidebar() {
   }, [toggle]);
   const Toggle = collapsed ? PanelLeftOpen : PanelLeftClose;
   return (
-    <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-6 overflow-hidden border-r bg-surface px-3 py-4 transition-[width] duration-300 ease-[var(--ease-out-quart)] lg:flex in-data-[sidebar=collapsed]:w-[4.25rem]">
+    <aside className="ui-sidebar sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-6 overflow-hidden border-r bg-surface px-3 py-4 transition-[width] duration-300 ease-[var(--ease-out-quart)] lg:flex in-data-[sidebar=collapsed]:w-[4.25rem]">
       <div className="flex items-center justify-between gap-1 in-data-[sidebar=collapsed]:flex-col in-data-[sidebar=collapsed]:gap-3">
         <Link href="/discover" className="rounded-lg px-2 py-1 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 in-data-[sidebar=collapsed]:px-1" aria-label="Atria">
           <Logo collapsed={collapsed} />
