@@ -4,7 +4,7 @@ import { CATEGORY_IDS, normName } from "@signal/shared";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { attachPages, findPages, sameBrandPages, syncBrandAds, syncRegistry, type MetaPage, type SyncProgress } from "@/lib/server/brand-sync";
-import { getSql, isUnavailable } from "@/lib/server/db";
+import { getBackgroundSql, getSql, isUnavailable } from "@/lib/server/db";
 
 const LOGO = (alias: string) =>
   `case when ${alias}.platform = 'meta' then 'https://graph.facebook.com/' || ${alias}.platform_page_id || '/picture?type=large&width=200&height=200' else ${alias}.logo_url end`;
@@ -182,7 +182,11 @@ export async function syncBrand(brandId: string): Promise<{ ok: true; started: b
   if (running?.state === "running") return { ok: true, started: false };
   syncRegistry.set(brandId, { state: "running", pagesDone: 0, pagesTotal: 1, ads: 0, newAds: 0, providers: [], startedAt: Date.now() });
   // The fetch runs after the response is sent: the button returns instantly and the UI polls progress.
+  const fgSql = sql;
   after(async () => {
+    // Background work runs on its own pool so it never takes the connections pages need.
+    const bgSql = getBackgroundSql();
+    const sql = isUnavailable(bgSql) ? fgSql : bgSql;
     const update = (p: Partial<SyncProgress>) => syncRegistry.set(brandId, { ...syncRegistry.get(brandId)!, ...p });
     try {
       // Make sure every regional page of the brand is linked (cached lookup: ≤1 free credit per brand/month).

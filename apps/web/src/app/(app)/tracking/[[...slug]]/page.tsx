@@ -11,7 +11,7 @@ import { TrackingApp } from "@/components/tracking/tracking-app";
 import { getBrandList } from "@/lib/server/ads";
 import { refreshStale } from "@/lib/server/brand-sync";
 import { getKeywords } from "@/lib/server/data";
-import { getSql, isUnavailable } from "@/lib/server/db";
+import { getBackgroundSql, isUnavailable, withBudget } from "@/lib/server/db";
 import { getMyBrand } from "@/lib/server/my-brand";
 import { getWatchData } from "@/lib/server/tracking";
 
@@ -48,8 +48,8 @@ async function Tracking({ params }: { params: PageProps<"/tracking/[[...slug]]">
   const [{ slug = [] }, data, me] = await Promise.all([params, getWatchData(), getMyBrand()]);
   // Competitors' newest ads keep arriving in the background (instant sources, never blocks the page).
   after(async () => {
-    const sql = getSql();
-    if (!isUnavailable(sql)) await refreshStale(sql, { category: me?.category ?? null, max: 6 }).catch(() => 0);
+    const sql = getBackgroundSql();
+    if (!isUnavailable(sql)) await withBudget(refreshStale(sql, { category: me?.category ?? null, max: 6 }).catch(() => 0), 90_000);
   });
   if (!data.ok) return <ErrorState title="Tracking unavailable" reason={data.reason} />;
   if (slug.length > 1 || (slug[0] && !data.data.moves.some((m) => m.id === slug[0]))) redirect("/tracking");

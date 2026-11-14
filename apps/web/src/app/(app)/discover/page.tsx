@@ -15,7 +15,7 @@ import { NicheTabs } from "@/components/feed/niche-tabs";
 import { EmptyState, ErrorState, SkeletonBlock } from "@/components/states";
 import { FEED_FORMATS, getFeed, getNicheCounts, getTopBrands, newFeedSeed, type BrandChip, type FeedSort } from "@/lib/server/ads";
 import { refreshStale } from "@/lib/server/brand-sync";
-import { getSql, isUnavailable } from "@/lib/server/db";
+import { getBackgroundSql, isUnavailable, withBudget } from "@/lib/server/db";
 import { feedFitFor, getMyBrand } from "@/lib/server/my-brand";
 import { SEED_COOKIE } from "@/lib/session";
 import { cn } from "@/lib/utils";
@@ -147,8 +147,8 @@ async function Discover({ searchParams }: { searchParams: PageProps<"/discover">
 
   // Keep content flowing: refresh a few stale brands of this category in the background (instant sources).
   after(async () => {
-    const sql = getSql();
-    if (!isUnavailable(sql)) await refreshStale(sql, { category: CATEGORIES.some((c) => c.id === niche) ? niche : home, max: 4 }).catch(() => 0);
+    const sql = getBackgroundSql();
+    if (!isUnavailable(sql)) await withBudget(refreshStale(sql, { category: CATEGORIES.some((c) => c.id === niche) ? niche : home, max: 4 }).catch(() => 0), 90_000);
   });
   const isCategory = CATEGORIES.some((c) => c.id === niche);
   const [counts, brands, challengers, feed, remaining] = await Promise.all([

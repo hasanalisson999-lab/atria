@@ -5,7 +5,7 @@ import { embedMissingAds } from "@signal/shared/ai";
 import { fromPostgresJs, upsertAds } from "@signal/shared/db";
 import { dedupeCreatives } from "@signal/shared/media";
 import { after } from "next/server";
-import { getSql, isUnavailable } from "@/lib/server/db";
+import { getBackgroundSql, getSql, isUnavailable } from "@/lib/server/db";
 
 /** Followers a page needs to count as an established brand in live search results. */
 const MIN_LIKES = 100_000;
@@ -34,8 +34,11 @@ export async function liveSearchAds(q: string): Promise<{ ok: true; added: numbe
             on conflict (key) do update set result = excluded.result, provider = excluded.provider, created_at = now()`;
   // Group duplicates and embed the new creatives after responding.
   after(async () => {
-    await dedupeCreatives(db, { concurrency: 6 }).catch(() => undefined);
-    if (process.env.VOYAGE_API_KEY) await embedMissingAds(process.env.VOYAGE_API_KEY, db, { limit: 300 }).catch(() => undefined);
+    // Own pool: dedupe and embedding take a while and must not slow pages down.
+    const bg = getBackgroundSql();
+    const bgDb = isUnavailable(bg) ? db : fromPostgresJs(bg);
+    await dedupeCreatives(bgDb, { concurrency: 6 }).catch(() => undefined);
+    if (process.env.VOYAGE_API_KEY) await embedMissingAds(process.env.VOYAGE_API_KEY, bgDb, { limit: 300 }).catch(() => undefined);
   });
   return { ok: true, added: r.inserted, brands, provider: chain.provider };
 }

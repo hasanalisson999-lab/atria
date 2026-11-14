@@ -21,6 +21,25 @@ export function getSql(): Sql | DbUnavailable {
 
 export const isUnavailable = (v: unknown): v is DbUnavailable => typeof v === "object" && v !== null && (v as DbUnavailable).ok === false;
 
+const globalForBg = globalThis as unknown as { __signalBgSql?: Sql };
+
+/**
+ * A separate, small pool for background work (after() refreshes, brand syncs, seeding). Those jobs wait on
+ * slow ad providers for minutes; on their own pool they can never take the connections pages need, so a
+ * page never sits on "Loading" behind them.
+ */
+export function getBackgroundSql(): Sql | DbUnavailable {
+  const main = getSql();
+  if (isUnavailable(main)) return main;
+  globalForBg.__signalBgSql ??= createSql(process.env.DATABASE_URL!, { max: 2, appName: "signal-web-bg" });
+  return globalForBg.__signalBgSql;
+}
+
+/** Resolves when `work` finishes or after `ms`, whichever comes first, so background jobs never hit the platform's time limit. */
+export function withBudget<T>(work: Promise<T>, ms: number): Promise<T | undefined> {
+  return Promise.race([work, new Promise<undefined>((r) => setTimeout(r, ms))]);
+}
+
 export type Result<T> = { ok: true; data: T } | { ok: false; reason: string };
 
 /** Runs a query function and converts every failure mode into a Result. */

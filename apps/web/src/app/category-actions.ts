@@ -3,7 +3,7 @@
 import { categoryById } from "@signal/shared";
 import { after } from "next/server";
 import { missingBrands, seedCategoryBrands, seedRegistry, type SeedProgress } from "@/lib/server/category-seed";
-import { getSql, isUnavailable } from "@/lib/server/db";
+import { getBackgroundSql, getSql, isUnavailable } from "@/lib/server/db";
 
 /** Starts pulling a category's brands in the background (returns at once; poll categoryStatus). */
 export async function seedCategory(categoryId: string, max = 8): Promise<{ ok: true; started: boolean; remaining: number } | { ok: false; error: string }> {
@@ -14,7 +14,11 @@ export async function seedCategory(categoryId: string, max = 8): Promise<{ ok: t
   const remaining = (await missingBrands(sql, categoryId)).length;
   if (!remaining) return { ok: true, started: false, remaining: 0 };
   seedRegistry.set(categoryId, { state: "running", total: Math.min(max, remaining), done: 0, added: [], skipped: [], ads: 0 });
+  const fgSql = sql;
   after(async () => {
+    // Background work runs on its own pool so it never takes the connections pages need.
+    const bgSql = getBackgroundSql();
+    const sql = isUnavailable(bgSql) ? fgSql : bgSql;
     const update = (p: Partial<SeedProgress>) => seedRegistry.set(categoryId, { ...seedRegistry.get(categoryId)!, ...p });
     try {
       await seedCategoryBrands(sql, categoryId, Math.min(Math.max(max, 1), 12), update);
