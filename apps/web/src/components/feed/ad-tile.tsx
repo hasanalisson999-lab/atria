@@ -166,7 +166,7 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
               onLoad={i === 0 ? (e) => setRatio(e.currentTarget.naturalWidth, e.currentTarget.naturalHeight) : undefined}
               // The resizer can't reach a few CDN links: fall back to the original image.
               onError={(e) => e.currentTarget.src !== src && (e.currentTarget.src = src)}
-              className="h-full w-full shrink-0 object-cover"
+              className="h-full w-full shrink-0 object-contain"
             />
           ))}
         </div>
@@ -189,7 +189,7 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
               setImgLoaded(true);
             }}
             onError={() => (useOriginal ? setImgFailed(true) : setUseOriginal(true))}
-            className={cn("absolute inset-0 size-full object-cover transition-[opacity,transform] duration-700 ease-[var(--ease-out-quart)]", imgLoaded ? "opacity-100" : "opacity-0", hovering && !isVideo && "scale-[1.03]")}
+            className={cn("absolute inset-0 size-full object-contain transition-[opacity,transform] duration-700 ease-[var(--ease-out-quart)]", imgLoaded ? "opacity-100" : "opacity-0")}
           />
         </>
       ) : isVideo ? (
@@ -216,7 +216,7 @@ export function AdTile({ ad, index, onOpen, selected }: { ad: FeedAd; index: num
             const v = e.currentTarget;
             if (v.duration) setProgress(v.currentTime / v.duration);
           }}
-          className={cn("absolute inset-0 size-full object-cover transition-opacity duration-300", (hovering && playing) || !showImage ? "opacity-100" : "opacity-0")}
+          className={cn("absolute inset-0 size-full object-contain transition-opacity duration-300", (hovering && playing) || !showImage ? "opacity-100" : "opacity-0")}
         />
       )}
 

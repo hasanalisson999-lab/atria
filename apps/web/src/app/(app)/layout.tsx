@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { AdPanelProvider } from "@/components/ad/ad-panel";
-import { Dock, TopNav } from "@/components/shell/alt-nav";
+import { AppBar, GalleryNav, PillNav, Rail } from "@/components/shell/alt-nav";
 import { Sidebar } from "@/components/shell/sidebar";
 import { Topbar } from "@/components/shell/topbar";
 import { WheelScroll } from "@/components/shell/wheel-scroll";
@@ -18,23 +18,25 @@ function TopbarFallback() {
 export default function AppLayout({ children }: LayoutProps<"/">) {
   return (
     <AdPanelProvider>
-    <WheelScroll />
-    <div className="flex min-h-dvh">
-      <Sidebar />
-      <div className="flex min-w-0 flex-1 flex-col">
-        {/* Masthead and dock belong to other interface styles; CSS shows the one in use. */}
+      <WheelScroll />
+      <div className="flex min-h-dvh">
+        <Sidebar />
+        {/* The other styles' navigation; CSS shows only the one in use (see ui-themes.css). */}
         <Suspense fallback={null}>
-          <TopNav />
+          <Rail />
         </Suspense>
-        <Suspense fallback={<TopbarFallback />}>
-          <Topbar />
-        </Suspense>
-        <main className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:px-10">{children}</main>
-        <Suspense fallback={null}>
-          <Dock />
-        </Suspense>
+        <div className="flex min-w-0 flex-1 flex-col">
+          <Suspense fallback={null}>
+            <GalleryNav />
+            <AppBar />
+            <PillNav />
+          </Suspense>
+          <Suspense fallback={<TopbarFallback />}>
+            <Topbar />
+          </Suspense>
+          <main className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:px-10">{children}</main>
+        </div>
       </div>
-    </div>
     </AdPanelProvider>
   );
 }

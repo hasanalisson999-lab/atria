@@ -8,11 +8,11 @@ import { useCallback, useSyncExternalStore } from "react";
  * localStorage and restored before first paint by the head script in lib/fold-script.ts.
  */
 export const UI_THEMES = [
-  { id: "atria", name: "Atria", description: "Clean and bright, wide display type. The original." },
-  { id: "paper", name: "Paper", description: "Warm editorial pages, serif headlines, terracotta accent." },
-  { id: "neon", name: "Neon", description: "Futuristic. Deep black or soft lilac with a violet and cyan glow." },
-  { id: "brutal", name: "Brutal", description: "Swiss poster. Hard black lines, square corners, electric yellow." },
-  { id: "glass", name: "Glass", description: "Frosted panels floating over a soft aurora gradient." },
+  { id: "atria", name: "Atria", description: "Clean and bright with wide display type. The original." },
+  { id: "studio", name: "Studio", description: "A pro tool. Icon rail, compact type, contact-sheet ads and an inspector." },
+  { id: "gallery", name: "Gallery", description: "A museum. White walls, framed ads with labels, quiet text menu." },
+  { id: "bento", name: "Bento", description: "Playful colour tiles, a floating pill menu and a popup that fits one screen." },
+  { id: "feed", name: "Feed", description: "A social app. Brands as stories, ads as posts, AI notes as comments." },
 ] as const;
 
 export type UiThemeId = (typeof UI_THEMES)[number]["id"];

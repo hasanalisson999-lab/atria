@@ -37,7 +37,7 @@ export function Topbar() {
   }, [router]);
 
   return (
-    <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
+    <header className="ui-topbar sticky top-0 z-30 border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
       <div className="flex h-14 items-center gap-3 px-4 sm:px-6">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>

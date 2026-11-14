@@ -43,7 +43,7 @@ export function FeedToolbar({ query, total }: { query: FeedQuery; total: number 
   };
 
   return (
-    <div className="sticky top-14 z-20 -mx-4 flex items-center gap-2 border-b bg-background/85 px-4 py-2.5 backdrop-blur-xl sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10">
+    <div className="ui-toolbar sticky top-14 z-20 -mx-4 flex items-center gap-2 border-b bg-background/85 px-4 py-2.5 backdrop-blur-xl sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10">
       <DropdownMenu>
         <DropdownMenuTrigger
           className={cn(

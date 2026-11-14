@@ -1,366 +1,358 @@
 /*
  * Interface styles (Settings → Appearance). Each style is one block of design tokens for light, one for dark,
- * plus a few style-specific rules at the end. The default style (Atria) lives in globals.css.
+ * and a few rules at the end. The default style (Atria) lives in globals.css. Layout differences (navigation,
+ * how ads, brands and the ad popup are drawn) live in the components, which read the style with useUiTheme().
  *
- * How it works: <html data-ui="paper"> switches the whole app. The same attribute on any element (the preview
- * cards in Settings) restyles just that element and its children.
- *
- * To add a style: copy a block below, rename the [data-ui="…"] value, change the tokens, and add the style to
- * UI_THEMES in src/lib/ui-theme.ts.
+ * <html data-ui="studio"> switches the whole app. The same attribute on any element (the preview cards in
+ * Settings) restyles just that element and its children.
  */
 
-/* ------------------------------------------------------------------ Paper: warm editorial, serif headlines */
-[data-ui="paper"] {
-  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --ui-font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
-  --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
-  --ui-display-stretch: 100%;
-  --ui-display-wdth: 100;
-  --radius: 0.5rem;
-
-  --background: #f6f1e7;
-  --foreground: #1d1a16;
-  --surface: #efe8da;
-  --surface-2: #e8dfcd;
-  --card: #fbf8f2;
-  --card-foreground: #1d1a16;
-  --popover: #fbf8f2;
-  --popover-foreground: #1d1a16;
-  --primary: #1d1a16;
-  --primary-foreground: #fbf8f2;
-  --secondary: #ece4d4;
-  --secondary-foreground: #1d1a16;
-  --muted: #ece4d4;
-  --muted-foreground: #6e6558;
-  --accent: #eee6d6;
-  --accent-foreground: #1d1a16;
-  --border: #ddd2bd;
-  --input: #d6c9b1;
-  --ring: #c2410c;
-
-  --pink: #c2410c;
-  --pink-soft: #f7e3d6;
-  --pink-ink: #9a3412;
-  --lime: #b7d48a;
-  --lime-ink: #2f4a12;
-  --ink: #1d1a16;
-  --ink-foreground: #fbf8f2;
-  --skeleton: #e8e0d0;
-  --skeleton-hi: #f3ede1;
-
-  --shadow-card: 0 1px 0 rgb(29 26 22 / 0.06);
-  --shadow-lift: 0 14px 30px -18px rgb(29 26 22 / 0.35);
-  --glow-pink: 0 0 0 1px rgb(194 65 12 / 0.4), 0 12px 30px -14px rgb(194 65 12 / 0.45);
-}
-.dark[data-ui="paper"],
-.dark [data-ui="paper"] {
-  --background: #12100d;
-  --foreground: #f1ebdf;
-  --surface: #1a1714;
-  --surface-2: #221e1a;
-  --card: #18150f;
-  --card-foreground: #f1ebdf;
-  --popover: #1e1a15;
-  --popover-foreground: #f1ebdf;
-  --primary: #f1ebdf;
-  --primary-foreground: #12100d;
-  --secondary: #26211b;
-  --secondary-foreground: #f1ebdf;
-  --muted: #26211b;
-  --muted-foreground: #a99d8b;
-  --accent: #2a241d;
-  --accent-foreground: #f1ebdf;
-  --border: #2e2821;
-  --input: #3a3229;
-  --ring: #fb923c;
-
-  --pink: #fb923c;
-  --pink-soft: rgb(251 146 60 / 0.14);
-  --pink-ink: #fdba74;
-  --ink: #f1ebdf;
-  --ink-foreground: #12100d;
-  --skeleton: #221e19;
-  --skeleton-hi: #2d2720;
-
-  --shadow-card: 0 1px 0 rgb(0 0 0 / 0.5);
-  --shadow-lift: 0 18px 40px -20px rgb(0 0 0 / 0.85);
-}
-
-/* ------------------------------------------------------------------ Neon: futuristic, violet and cyan glow */
-[data-ui="neon"] {
-  --ui-font-sans: var(--font-space), var(--font-inter), ui-sans-serif, sans-serif;
-  --ui-font-display: var(--font-space), var(--font-inter), ui-sans-serif, sans-serif;
-  --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
-  --ui-display-stretch: 100%;
-  --ui-display-wdth: 100;
-  --radius: 1rem;
-
-  --background: #f6f5ff;
-  --foreground: #13102b;
-  --surface: #eeecff;
-  --surface-2: #e6e3ff;
-  --card: #ffffff;
-  --card-foreground: #13102b;
-  --popover: #ffffff;
-  --popover-foreground: #13102b;
-  --primary: #13102b;
-  --primary-foreground: #ffffff;
-  --secondary: #ebe8ff;
-  --secondary-foreground: #13102b;
-  --muted: #ebe8ff;
-  --muted-foreground: #615c86;
-  --accent: #efedff;
-  --accent-foreground: #13102b;
-  --border: #e0dcfb;
-  --input: #d6d1f7;
-  --ring: #7c3aed;
-
-  --pink: #8b5cf6;
-  --pink-soft: #ede7ff;
-  --pink-ink: #5b21b6;
-  --lime: #67e8f9;
-  --lime-ink: #155e75;
-  --ink: #13102b;
-  --ink-foreground: #ffffff;
-  --skeleton: #e9e6ff;
-  --skeleton-hi: #f5f3ff;
-
-  --shadow-card: 0 1px 2px rgb(76 29 149 / 0.06), 0 0 0 1px rgb(139 92 246 / 0.06);
-  --shadow-lift: 0 18px 40px -16px rgb(124 58 237 / 0.35), 0 0 0 1px rgb(139 92 246 / 0.12);
-  --glow-pink: 0 0 0 1px rgb(139 92 246 / 0.5), 0 0 30px -4px rgb(139 92 246 / 0.6);
-}
-.dark[data-ui="neon"],
-.dark [data-ui="neon"] {
-  --background: #000000;
-  --foreground: #ecebff;
-  --surface: #06050f;
-  --surface-2: #0c0a1c;
-  --card: #08071a;
-  --card-foreground: #ecebff;
-  --popover: #0d0b22;
-  --popover-foreground: #ecebff;
-  --primary: #ecebff;
-  --primary-foreground: #000000;
-  --secondary: #131033;
-  --secondary-foreground: #ecebff;
-  --muted: #131033;
-  --muted-foreground: #9d98c9;
-  --accent: #16123b;
-  --accent-foreground: #ecebff;
-  --border: #1c1845;
-  --input: #262057;
-  --ring: #a78bfa;
-
-  --pink: #a78bfa;
-  --pink-soft: rgb(167 139 250 / 0.14);
-  --pink-ink: #c4b5fd;
-  --lime: #22d3ee;
-  --lime-ink: #032b33;
-  --ink: #ecebff;
-  --ink-foreground: #000000;
-  --skeleton: #110e2b;
-  --skeleton-hi: #1b1742;
-
-  --shadow-card: 0 0 0 1px rgb(167 139 250 / 0.1);
-  --shadow-lift: 0 0 0 1px rgb(167 139 250 / 0.28), 0 18px 50px -16px rgb(124 58 237 / 0.55);
-  --glow-pink: 0 0 0 1px rgb(167 139 250 / 0.6), 0 0 36px -2px rgb(167 139 250 / 0.7);
-}
-
-/* ------------------------------------------------------------------ Brutal: Swiss poster, hard edges */
-[data-ui="brutal"] {
-  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --ui-font-display: var(--font-archivo), var(--font-inter), ui-sans-serif, sans-serif;
-  --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
-  --ui-display-stretch: 100%;
-  --ui-display-wdth: 100;
-  --radius: 0rem;
-
-  --background: #ffffff;
-  --foreground: #000000;
-  --surface: #ffffff;
-  --surface-2: #f2f2f2;
-  --card: #ffffff;
-  --card-foreground: #000000;
-  --popover: #ffffff;
-  --popover-foreground: #000000;
-  --primary: #000000;
-  --primary-foreground: #ffffff;
-  --secondary: #f0f0f0;
-  --secondary-foreground: #000000;
-  --muted: #f0f0f0;
-  --muted-foreground: #444444;
-  --accent: #fff500;
-  --accent-foreground: #000000;
-  --border: #000000;
-  --input: #000000;
-  --ring: #000000;
-
-  --pink: #ffe600;
-  --pink-soft: #fffbcc;
-  --pink-ink: #000000;
-  --lime: #00ff85;
-  --lime-ink: #000000;
-  --ink: #000000;
-  --ink-foreground: #ffffff;
-  --skeleton: #eeeeee;
-  --skeleton-hi: #f8f8f8;
-
-  --shadow-card: 3px 3px 0 0 #000000;
-  --shadow-lift: 6px 6px 0 0 #000000;
-  --glow-pink: 4px 4px 0 0 #000000;
-}
-.dark[data-ui="brutal"],
-.dark [data-ui="brutal"] {
-  --background: #000000;
-  --foreground: #ffffff;
-  --surface: #000000;
-  --surface-2: #111111;
-  --card: #000000;
-  --card-foreground: #ffffff;
-  --popover: #000000;
-  --popover-foreground: #ffffff;
-  --primary: #ffffff;
-  --primary-foreground: #000000;
-  --secondary: #141414;
-  --secondary-foreground: #ffffff;
-  --muted: #141414;
-  --muted-foreground: #bdbdbd;
-  --accent: #ffe600;
-  --accent-foreground: #000000;
-  --border: #ffffff;
-  --input: #ffffff;
-  --ring: #ffe600;
-
-  --pink: #ffe600;
-  --pink-soft: rgb(255 230 0 / 0.16);
-  --pink-ink: #ffe600;
-  --ink: #ffffff;
-  --ink-foreground: #000000;
-  --skeleton: #161616;
-  --skeleton-hi: #222222;
-
-  --shadow-card: 3px 3px 0 0 #ffffff;
-  --shadow-lift: 6px 6px 0 0 #ffe600;
-  --glow-pink: 4px 4px 0 0 #ffe600;
-}
-
-/* ------------------------------------------------------------------ Glass: frosted panels over a soft aurora */
-[data-ui="glass"] {
+/* ------------------------------------------------------------------ Studio: a pro tool, compact and precise */
+[data-ui="studio"] {
   --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --ui-font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
   --ui-display-stretch: 100%;
   --ui-display-wdth: 100;
-  --radius: 1.1rem;
-  --ui-canvas: radial-gradient(60rem 40rem at 10% -10%, #c7d2fe 0%, transparent 60%), radial-gradient(50rem 36rem at 95% 5%, #fbcfe8 0%, transparent 60%),
-    radial-gradient(60rem 40rem at 50% 110%, #a5f3fc 0%, transparent 60%);
+  --radius: 0.375rem;
 
-  --background: #f5f7ff;
-  --foreground: #0f172a;
-  --surface: rgb(255 255 255 / 0.55);
-  --surface-2: rgb(255 255 255 / 0.4);
-  --card: rgb(255 255 255 / 0.62);
-  --card-foreground: #0f172a;
-  --popover: rgb(255 255 255 / 0.88);
-  --popover-foreground: #0f172a;
-  --primary: #0f172a;
+  --background: #fbfbfc;
+  --foreground: #111318;
+  --surface: #f3f4f6;
+  --surface-2: #eceef1;
+  --card: #ffffff;
+  --card-foreground: #111318;
+  --popover: #ffffff;
+  --popover-foreground: #111318;
+  --primary: #111318;
   --primary-foreground: #ffffff;
-  --secondary: rgb(255 255 255 / 0.6);
-  --secondary-foreground: #0f172a;
-  --muted: rgb(255 255 255 / 0.6);
-  --muted-foreground: #526079;
-  --accent: rgb(255 255 255 / 0.7);
-  --accent-foreground: #0f172a;
-  --border: rgb(255 255 255 / 0.75);
-  --input: rgb(15 23 42 / 0.12);
-  --ring: #6366f1;
+  --secondary: #eef0f3;
+  --secondary-foreground: #111318;
+  --muted: #eef0f3;
+  --muted-foreground: #6a707c;
+  --accent: #f0f2f5;
+  --accent-foreground: #111318;
+  --border: #e3e5e9;
+  --input: #dadde2;
+  --ring: #3b5bfd;
 
-  --pink: #6366f1;
-  --pink-soft: rgb(99 102 241 / 0.12);
-  --pink-ink: #4338ca;
-  --lime: #5eead4;
-  --lime-ink: #134e4a;
-  --ink: #0f172a;
+  --pink: #3b5bfd;
+  --pink-soft: #e8edff;
+  --pink-ink: #2338c4;
+  --lime: #c7f0d8;
+  --lime-ink: #11613a;
+  --ink: #111318;
   --ink-foreground: #ffffff;
-  --skeleton: rgb(255 255 255 / 0.5);
-  --skeleton-hi: rgb(255 255 255 / 0.85);
+  --skeleton: #eceef1;
+  --skeleton-hi: #f7f8f9;
 
-  --shadow-card: 0 8px 24px -12px rgb(15 23 42 / 0.18), inset 0 1px 0 rgb(255 255 255 / 0.7);
-  --shadow-lift: 0 24px 48px -20px rgb(15 23 42 / 0.3), inset 0 1px 0 rgb(255 255 255 / 0.8);
-  --glow-pink: 0 0 0 1px rgb(99 102 241 / 0.4), 0 16px 40px -14px rgb(99 102 241 / 0.55);
+  --shadow-card: 0 1px 2px rgb(17 19 24 / 0.06);
+  --shadow-lift: 0 8px 24px -10px rgb(17 19 24 / 0.22), 0 1px 3px rgb(17 19 24 / 0.08);
+  --glow-pink: 0 0 0 1px rgb(59 91 253 / 0.5), 0 6px 20px -8px rgb(59 91 253 / 0.5);
 }
-.dark[data-ui="glass"],
-.dark [data-ui="glass"] {
-  --ui-canvas: radial-gradient(60rem 40rem at 10% -10%, rgb(79 70 229 / 0.45) 0%, transparent 60%), radial-gradient(50rem 36rem at 95% 5%, rgb(219 39 119 / 0.32) 0%, transparent 60%),
-    radial-gradient(60rem 40rem at 50% 110%, rgb(8 145 178 / 0.35) 0%, transparent 60%);
-  --background: #05060f;
-  --foreground: #eef2ff;
-  --surface: rgb(15 18 40 / 0.55);
-  --surface-2: rgb(25 28 55 / 0.5);
-  --card: rgb(18 20 44 / 0.55);
-  --card-foreground: #eef2ff;
-  --popover: rgb(18 20 44 / 0.92);
-  --popover-foreground: #eef2ff;
-  --primary: #eef2ff;
-  --primary-foreground: #05060f;
-  --secondary: rgb(255 255 255 / 0.07);
-  --secondary-foreground: #eef2ff;
-  --muted: rgb(255 255 255 / 0.07);
-  --muted-foreground: #a3acc9;
-  --accent: rgb(255 255 255 / 0.09);
-  --accent-foreground: #eef2ff;
-  --border: rgb(255 255 255 / 0.1);
-  --input: rgb(255 255 255 / 0.16);
-  --ring: #818cf8;
+.dark[data-ui="studio"],
+.dark [data-ui="studio"] {
+  --background: #0b0c0e;
+  --foreground: #e7e8eb;
+  --surface: #101114;
+  --surface-2: #16171b;
+  --card: #121317;
+  --card-foreground: #e7e8eb;
+  --popover: #16171b;
+  --popover-foreground: #e7e8eb;
+  --primary: #e7e8eb;
+  --primary-foreground: #0b0c0e;
+  --secondary: #1a1b20;
+  --secondary-foreground: #e7e8eb;
+  --muted: #1a1b20;
+  --muted-foreground: #878c97;
+  --accent: #1c1d22;
+  --accent-foreground: #e7e8eb;
+  --border: #23252b;
+  --input: #2c2e35;
+  --ring: #6680ff;
 
-  --pink: #818cf8;
-  --pink-soft: rgb(129 140 248 / 0.16);
-  --pink-ink: #c7d2fe;
-  --ink: #eef2ff;
-  --ink-foreground: #05060f;
-  --skeleton: rgb(255 255 255 / 0.06);
-  --skeleton-hi: rgb(255 255 255 / 0.12);
+  --pink: #6680ff;
+  --pink-soft: #171d3d;
+  --pink-ink: #aab8ff;
+  --lime: #12301f;
+  --lime-ink: #8fe0b2;
+  --ink: #e7e8eb;
+  --ink-foreground: #0b0c0e;
+  --skeleton: #16171b;
+  --skeleton-hi: #1e2025;
 
-  --shadow-card: 0 10px 30px -14px rgb(0 0 0 / 0.7), inset 0 1px 0 rgb(255 255 255 / 0.06);
-  --shadow-lift: 0 26px 60px -20px rgb(0 0 0 / 0.85), inset 0 1px 0 rgb(255 255 255 / 0.1);
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.03);
+  --shadow-lift: 0 12px 30px -12px rgb(0 0 0 / 0.8);
+  --glow-pink: 0 0 0 1px rgb(102 128 255 / 0.55), 0 8px 26px -8px rgb(102 128 255 / 0.55);
 }
-
-/* ------------------------------------------------------------------ style-specific rules */
-
-/* Paper: serif headlines (Instrument Serif has a single weight, so headings never get fake bold). */
-[data-ui="paper"] :is(h1, h2, h3, .font-display) {
-  font-family: var(--ui-font-display);
-  font-weight: 400;
-  font-synthesis: none;
-  letter-spacing: -0.01em;
+/* Studio is a dense tool: everything sized in rem gets a little smaller. */
+html[data-ui="studio"] {
+  font-size: 14.5px;
 }
 
-/* Neon: tighter geometric headings and a faint glow on the accent. */
-[data-ui="neon"] :is(h1, h2, .font-display) {
-  letter-spacing: -0.03em;
+/* ------------------------------------------------------------------ Gallery: white walls, framed work */
+[data-ui="gallery"] {
+  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-mono: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-display-stretch: 100%;
+  --ui-display-wdth: 100;
+  --radius: 0.125rem;
+
+  --background: #f7f7f5;
+  --foreground: #141414;
+  --surface: #f0efec;
+  --surface-2: #e8e7e3;
+  --card: #ffffff;
+  --card-foreground: #141414;
+  --popover: #ffffff;
+  --popover-foreground: #141414;
+  --primary: #141414;
+  --primary-foreground: #ffffff;
+  --secondary: #ecebe7;
+  --secondary-foreground: #141414;
+  --muted: #ecebe7;
+  --muted-foreground: #7a7872;
+  --accent: #efeeea;
+  --accent-foreground: #141414;
+  --border: #e2e0db;
+  --input: #d8d6d0;
+  --ring: #d93a22;
+
+  --pink: #d93a22;
+  --pink-soft: #fbe6e1;
+  --pink-ink: #ae2811;
+  --lime: #e4ecd6;
+  --lime-ink: #3c5216;
+  --ink: #141414;
+  --ink-foreground: #ffffff;
+  --skeleton: #ebeae6;
+  --skeleton-hi: #f6f5f2;
+
+  --shadow-card: 0 1px 2px rgb(20 20 20 / 0.06), 0 6px 18px -10px rgb(20 20 20 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(20 20 20 / 0.06), 0 22px 44px -22px rgb(20 20 20 / 0.35);
+  --glow-pink: 0 0 0 1px rgb(217 58 34 / 0.45);
 }
-.dark[data-ui="neon"] .bg-pink,
-.dark [data-ui="neon"] .bg-pink {
-  box-shadow: 0 0 22px -4px var(--pink);
+.dark[data-ui="gallery"],
+.dark [data-ui="gallery"] {
+  --background: #141414;
+  --foreground: #efede8;
+  --surface: #1a1a1a;
+  --surface-2: #212121;
+  --card: #1d1d1d;
+  --card-foreground: #efede8;
+  --popover: #222222;
+  --popover-foreground: #efede8;
+  --primary: #efede8;
+  --primary-foreground: #141414;
+  --secondary: #242424;
+  --secondary-foreground: #efede8;
+  --muted: #242424;
+  --muted-foreground: #96938c;
+  --accent: #262626;
+  --accent-foreground: #efede8;
+  --border: #2c2c2c;
+  --input: #363636;
+  --ring: #f0563d;
+
+  --pink: #f0563d;
+  --pink-soft: #3a1c16;
+  --pink-ink: #ff9c8a;
+  --lime: #263018;
+  --lime-ink: #c3d99c;
+  --ink: #efede8;
+  --ink-foreground: #141414;
+  --skeleton: #222222;
+  --skeleton-hi: #2a2a2a;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 24px -12px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 26px 50px -24px rgb(0 0 0 / 0.85);
+  --glow-pink: 0 0 0 1px rgb(240 86 61 / 0.5);
+}
+[data-ui="gallery"] :is(h1, h2) {
+  font-weight: 300 !important;
+  letter-spacing: -0.035em;
 }
 
-/* Brutal: square corners everywhere except true circles, bold uppercase headings. */
-[data-ui="brutal"] :is([class*="rounded"]:not(.rounded-full)) {
-  border-radius: 0 !important;
+/* ------------------------------------------------------------------ Bento: colour tiles, chunky and friendly */
+[data-ui="bento"] {
+  --ui-font-sans: var(--font-space), var(--font-inter), ui-sans-serif, sans-serif;
+  --ui-font-display: var(--font-space), var(--font-inter), ui-sans-serif, sans-serif;
+  --ui-font-mono: var(--font-space), ui-monospace, monospace;
+  --ui-display-stretch: 100%;
+  --ui-display-wdth: 100;
+  --radius: 1.25rem;
+
+  --background: #efeef4;
+  --foreground: #16151c;
+  --surface: #e7e6ee;
+  --surface-2: #dedce8;
+  --card: #ffffff;
+  --card-foreground: #16151c;
+  --popover: #ffffff;
+  --popover-foreground: #16151c;
+  --primary: #16151c;
+  --primary-foreground: #ffffff;
+  --secondary: #e4e3ec;
+  --secondary-foreground: #16151c;
+  --muted: #e4e3ec;
+  --muted-foreground: #66647a;
+  --accent: #e9e8f0;
+  --accent-foreground: #16151c;
+  --border: #dddbe6;
+  --input: #d2d0de;
+  --ring: #ff5a1f;
+
+  --pink: #ff5a1f;
+  --pink-soft: #ffe4d8;
+  --pink-ink: #c23a06;
+  --lime: #c8f25a;
+  --lime-ink: #33490a;
+  --ink: #16151c;
+  --ink-foreground: #ffffff;
+  --skeleton: #e2e1ea;
+  --skeleton-hi: #f2f1f7;
+
+  /* Tile tints, used by bento tiles in turn. */
+  --tile-1: #ffd9e4;
+  --tile-2: #d4ecff;
+  --tile-3: #ddf7c6;
+  --tile-4: #fff0b8;
+  --tile-5: #e6dbff;
+  --tile-6: #ffe1cc;
+
+  --shadow-card: 0 1px 0 rgb(22 21 28 / 0.04);
+  --shadow-lift: 0 18px 40px -20px rgb(22 21 28 / 0.35);
+  --glow-pink: 0 0 0 2px var(--pink);
 }
-[data-ui="brutal"] :is(h1, h2) {
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
+.dark[data-ui="bento"],
+.dark [data-ui="bento"] {
+  --background: #0d0c11;
+  --foreground: #f3f2f8;
+  --surface: #14131a;
+  --surface-2: #1b1a23;
+  --card: #18171f;
+  --card-foreground: #f3f2f8;
+  --popover: #1d1c25;
+  --popover-foreground: #f3f2f8;
+  --primary: #f3f2f8;
+  --primary-foreground: #0d0c11;
+  --secondary: #1f1e28;
+  --secondary-foreground: #f3f2f8;
+  --muted: #1f1e28;
+  --muted-foreground: #9c9ab0;
+  --accent: #22212b;
+  --accent-foreground: #f3f2f8;
+  --border: #26252f;
+  --input: #2f2e3a;
+  --ring: #ff7a45;
+
+  --pink: #ff7a45;
+  --pink-soft: #3a1d10;
+  --pink-ink: #ffb08c;
+  --lime: #c8f25a;
+  --lime-ink: #2b3d08;
+  --ink: #f3f2f8;
+  --ink-foreground: #0d0c11;
+  --skeleton: #1d1c25;
+  --skeleton-hi: #26252f;
+
+  --tile-1: #3a1c28;
+  --tile-2: #142a3d;
+  --tile-3: #1c3216;
+  --tile-4: #362e10;
+  --tile-5: #261d42;
+  --tile-6: #3b2414;
+
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.03);
+  --shadow-lift: 0 22px 44px -22px rgb(0 0 0 / 0.9);
+  --glow-pink: 0 0 0 2px var(--pink);
+}
+[data-ui="bento"] :is(h1, h2, .font-display) {
+  letter-spacing: -0.035em;
+  font-weight: 700;
 }
 
-/* Glass: the aurora behind everything, and frosted panels on top of it. */
-body {
-  background-image: var(--ui-canvas, none);
-  background-attachment: fixed;
+/* ------------------------------------------------------------------ Feed: a social app */
+[data-ui="feed"] {
+  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-mono: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-display-stretch: 100%;
+  --ui-display-wdth: 100;
+  --radius: 0.75rem;
+
+  --background: #ffffff;
+  --foreground: #0f1419;
+  --surface: #f7f9f9;
+  --surface-2: #eff3f4;
+  --card: #ffffff;
+  --card-foreground: #0f1419;
+  --popover: #ffffff;
+  --popover-foreground: #0f1419;
+  --primary: #0f1419;
+  --primary-foreground: #ffffff;
+  --secondary: #eff3f4;
+  --secondary-foreground: #0f1419;
+  --muted: #eff3f4;
+  --muted-foreground: #536471;
+  --accent: #f2f5f6;
+  --accent-foreground: #0f1419;
+  --border: #e6eaec;
+  --input: #dbe1e4;
+  --ring: #ff2d55;
+
+  --pink: #ff2d55;
+  --pink-soft: #ffe5ea;
+  --pink-ink: #d70f3a;
+  --lime: #d9f7e4;
+  --lime-ink: #0b6b35;
+  --ink: #0f1419;
+  --ink-foreground: #ffffff;
+  --skeleton: #eff3f4;
+  --skeleton-hi: #f9fbfb;
+  --story-ring: conic-gradient(from 210deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75);
+
+  --shadow-card: 0 0 0 1px var(--border);
+  --shadow-lift: 0 10px 30px -12px rgb(15 20 25 / 0.25);
+  --glow-pink: 0 0 0 2px var(--pink);
 }
-[data-ui="glass"] :is(.bg-card, .bg-popover, .bg-surface, .bg-secondary, .bg-background\/80, .bg-background\/85, .bg-background\/90) {
-  backdrop-filter: blur(18px) saturate(1.5);
-  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+.dark[data-ui="feed"],
+.dark [data-ui="feed"] {
+  --background: #000000;
+  --foreground: #e7e9ea;
+  --surface: #0a0a0a;
+  --surface-2: #16181c;
+  --card: #000000;
+  --card-foreground: #e7e9ea;
+  --popover: #16181c;
+  --popover-foreground: #e7e9ea;
+  --primary: #e7e9ea;
+  --primary-foreground: #000000;
+  --secondary: #16181c;
+  --secondary-foreground: #e7e9ea;
+  --muted: #16181c;
+  --muted-foreground: #71767b;
+  --accent: #181a1e;
+  --accent-foreground: #e7e9ea;
+  --border: #2f3336;
+  --input: #3a3e42;
+  --ring: #ff375f;
+
+  --pink: #ff375f;
+  --pink-soft: #3d0f1a;
+  --pink-ink: #ff8aa3;
+  --lime: #0f2e1c;
+  --lime-ink: #7ee2a8;
+  --ink: #e7e9ea;
+  --ink-foreground: #000000;
+  --skeleton: #16181c;
+  --skeleton-hi: #202327;
+
+  --shadow-card: 0 0 0 1px var(--border);
+  --shadow-lift: 0 14px 34px -14px rgb(0 0 0 / 0.9);
+  --glow-pink: 0 0 0 2px var(--pink);
 }
 
 /* ------------------------------------------------------------------ switching animation */
@@ -376,101 +368,51 @@ body {
   }
 }
 
-/* ================================================================== layout & components per style */
-/* Each style gets its own navigation and its own button / card / tile treatment, not just colours. */
-
-/* Navigation: Atria and Neon use the sidebar; Paper and Brutal a masthead; Glass a floating dock. */
-.ui-topnav,
-.ui-dock {
+/* ================================================================== navigation per style */
+/* Atria: the sidebar. Studio: a slim icon rail. Gallery: a quiet text menu. Bento: a floating pill.
+   Feed: an app bar with icon tabs. Every nav renders on every page; CSS shows the one in use. */
+.ui-rail,
+.ui-gallerynav,
+.ui-pillnav,
+.ui-appbar {
   display: none;
 }
-:is([data-ui="paper"], [data-ui="brutal"]) .ui-topnav {
-  display: block;
-}
-[data-ui="glass"] .ui-dock {
+[data-ui="studio"] .ui-rail,
+[data-ui="gallery"] .ui-gallerynav,
+[data-ui="bento"] .ui-pillnav,
+[data-ui="feed"] .ui-appbar {
   display: flex;
 }
-:is([data-ui="paper"], [data-ui="brutal"], [data-ui="glass"]) .ui-sidebar {
+:is([data-ui="studio"], [data-ui="gallery"], [data-ui="bento"], [data-ui="feed"]) .ui-sidebar {
   display: none !important;
 }
-[data-ui="glass"] main {
-  padding-bottom: 7.5rem;
+@media (max-width: 1023px) {
+  [data-ui="studio"] .ui-rail {
+    display: none;
+  }
+}
+[data-ui="feed"] main {
+  max-width: 1180px;
+}
+[data-ui="gallery"] main {
+  max-width: 1440px;
 }
 
-/* ---------------------------------------------------------------- Paper: squared editorial controls */
-[data-ui="paper"] :is(button, a, span, label)[class*="rounded-full"]:not([class*="size-"]) {
-  border-radius: 6px;
+/* The search bar scrolls away under the styles that have their own sticky header; the feed toolbar docks below it. */
+:is([data-ui="gallery"], [data-ui="bento"], [data-ui="feed"]) .ui-topbar {
+  position: relative;
+  z-index: 10;
 }
-[data-ui="paper"] main {
-  max-width: 1320px;
+[data-ui="gallery"] .ui-toolbar {
+  top: 0;
 }
-[data-ui="paper"] article[role="button"] {
-  border-radius: 6px;
-  box-shadow: 0 0 0 1px var(--border);
-}
-[data-ui="paper"] article[role="button"]:hover {
-  transform: none;
-  box-shadow: 0 0 0 1px var(--foreground);
+[data-ui="bento"] .ui-toolbar {
+  top: 4.6rem;
 }
 
-/* ---------------------------------------------------------------- Neon: gradient actions, glowing tiles */
-[data-ui="neon"] :is(button, a).bg-foreground {
-  background-image: linear-gradient(120deg, var(--pink), var(--lime));
-  color: #ffffff;
-}
-[data-ui="neon"] .ui-sidebar {
-  background-image: linear-gradient(180deg, var(--surface), var(--background));
-}
-[data-ui="neon"] .ui-sidebar a[aria-current="page"] {
-  box-shadow: var(--glow-pink);
-  border-radius: 0.75rem;
-}
-[data-ui="neon"] article[role="button"] {
-  transition:
-    transform 0.3s var(--ease-out-quart),
-    box-shadow 0.3s var(--ease-out-quart);
-}
-[data-ui="neon"] article[role="button"]:hover {
-  box-shadow: var(--glow-pink);
-}
-
-/* ---------------------------------------------------------------- Brutal: hard shadows that press in */
-[data-ui="brutal"] .border {
-  border-width: 2px;
-}
-[data-ui="brutal"] :is(button, a)[class*="rounded-full"]:not([class*="size-"]):not([aria-current]) {
-  border: 2px solid var(--foreground);
-  box-shadow: 3px 3px 0 0 var(--foreground);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  transition:
-    transform 0.08s ease,
-    box-shadow 0.08s ease;
-}
-[data-ui="brutal"] :is(button, a)[class*="rounded-full"]:not([class*="size-"]):not([aria-current]):active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 0 var(--foreground);
-}
-[data-ui="brutal"] article[role="button"] {
-  box-shadow: 0 0 0 2px var(--foreground);
-}
-[data-ui="brutal"] article[role="button"]:hover {
-  transform: translate(-3px, -3px);
-  box-shadow:
-    0 0 0 2px var(--foreground),
-    6px 6px 0 0 var(--pink);
-}
-
-/* ---------------------------------------------------------------- Glass: frosted, softer, rounder */
-[data-ui="glass"] :is(button, a)[class*="rounded-full"].border {
-  background-color: rgb(255 255 255 / 0.35);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-.dark[data-ui="glass"] :is(button, a)[class*="rounded-full"].border {
-  background-color: rgb(255 255 255 / 0.06);
-}
-[data-ui="glass"] article[role="button"] {
-  border-radius: 1.5rem;
+/* A transparency checkerboard behind contained creatives (Studio's contact sheet and inspector). */
+.checker {
+  background-color: var(--surface);
+  background-image: repeating-conic-gradient(var(--surface-2) 0 25%, transparent 0 50%);
+  background-size: 14px 14px;
 }

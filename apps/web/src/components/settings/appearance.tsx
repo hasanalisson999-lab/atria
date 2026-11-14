@@ -6,10 +6,96 @@ import { ThemeToggle } from "@/components/shell/theme-toggle";
 import { UI_THEMES, useUiTheme, type UiThemeId } from "@/lib/ui-theme";
 import { cn } from "@/lib/utils";
 
-/** A tiny, live mock of the app drawn with the style's own tokens (data-ui scopes them to this card). */
+/** A tiny, live mock of each style's own layout, drawn with its own tokens (data-ui scopes them to this card). */
 function Preview({ id }: { id: UiThemeId }) {
+  const shell = "relative h-36 overflow-hidden bg-background text-foreground";
+  if (id === "studio")
+    return (
+      <div data-ui={id} className={cn(shell, "flex")}>
+        <div className="flex w-7 flex-col items-center gap-1.5 border-r bg-surface py-2">
+          {[0, 1, 2, 3].map((i) => (
+            <span key={i} className={cn("size-3 rounded-[3px]", i === 0 ? "bg-pink" : "bg-foreground/15")} />
+          ))}
+        </div>
+        <div className="flex flex-1 flex-col gap-1.5 p-2">
+          <div className="flex gap-2 border-b pb-1">
+            {[10, 8, 9].map((w, i) => (
+              <span key={i} className={cn("h-1.5 rounded-full", i === 0 ? "bg-foreground/70" : "bg-foreground/20")} style={{ width: w * 4 }} />
+            ))}
+          </div>
+          <div className="grid flex-1 grid-cols-4 gap-px overflow-hidden rounded-[3px] border bg-border">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <span key={i} className="checker flex items-center justify-center bg-card p-1">
+                <span className={cn("h-full w-2/3 rounded-[2px]", i === 2 ? "bg-pink/70" : "bg-foreground/20")} />
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  if (id === "gallery")
+    return (
+      <div data-ui={id} className={cn(shell, "flex flex-col")}>
+        <div className="flex items-center justify-center gap-3 border-b py-2">
+          {[0, 1, 2, 3].map((i) => (
+            <span key={i} className="h-1 w-6 rounded-full bg-foreground/30" />
+          ))}
+        </div>
+        <div className="flex flex-1 items-start justify-center gap-4 px-4 pt-3">
+          {["h-14", "h-16", "h-12"].map((h, i) => (
+            <span key={i} className="flex w-14 flex-col gap-1">
+              <span className="bg-card p-1.5 shadow-[var(--shadow-card)]">
+                <span className={cn("block w-full", h, i === 1 ? "bg-pink/60" : "bg-surface-2")} />
+              </span>
+              <span className="h-1 w-8 bg-foreground/50" />
+              <span className="h-1 w-10 bg-foreground/15" />
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  if (id === "bento")
+    return (
+      <div data-ui={id} className={cn(shell, "flex flex-col items-center gap-2 p-2")}>
+        <span className="flex gap-1 rounded-full border bg-card p-1">
+          {[0, 1, 2, 3].map((i) => (
+            <span key={i} className={cn("h-2.5 w-7 rounded-full", i === 0 ? "bg-[var(--tile-2)]" : "bg-foreground/10")} />
+          ))}
+        </span>
+        <div className="grid w-full flex-1 grid-cols-3 gap-1.5">
+          {[1, 2, 3, 4, 5].map((t) => (
+            <span key={t} className={cn("rounded-xl", t === 1 && "col-span-2")} style={{ background: `var(--tile-${t})` }} />
+          ))}
+          <span className="rounded-xl bg-pink" />
+        </div>
+      </div>
+    );
+  if (id === "feed")
+    return (
+      <div data-ui={id} className={cn(shell, "flex flex-col")}>
+        <div className="flex h-6 items-center justify-center gap-4 border-b">
+          {[0, 1, 2, 3].map((i) => (
+            <span key={i} className={cn("size-2.5 rounded-[3px]", i === 0 ? "bg-pink" : "bg-foreground/25")} />
+          ))}
+        </div>
+        <div className="flex gap-1.5 px-3 pt-2">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <span key={i} className="size-5 rounded-full p-[1.5px]" style={{ background: "var(--story-ring)" }}>
+              <span className="block size-full rounded-full border-2 border-background bg-surface-2" />
+            </span>
+          ))}
+        </div>
+        <div className="mx-auto mt-2 flex w-28 flex-1 flex-col overflow-hidden rounded-t-md border">
+          <span className="flex items-center gap-1 p-1">
+            <span className="size-2.5 rounded-full bg-foreground/30" />
+            <span className="h-1 w-8 rounded-full bg-foreground/40" />
+          </span>
+          <span className="flex-1 bg-foreground/80" />
+        </div>
+      </div>
+    );
   return (
-    <div data-ui={id} className="relative h-36 overflow-hidden bg-background text-foreground" style={{ backgroundImage: "var(--ui-canvas, none)" }}>
+    <div data-ui={id} className={shell}>
       <div className="absolute inset-y-0 left-0 flex w-14 flex-col gap-1.5 border-r bg-surface p-2">
         <span className="size-3.5 rounded-md bg-pink" />
         {[0, 1, 2, 3].map((i) => (
@@ -25,10 +111,7 @@ function Preview({ id }: { id: UiThemeId }) {
         </div>
         <div className="grid flex-1 grid-cols-3 gap-1.5">
           {[0, 1, 2].map((i) => (
-            <span key={i} className="flex flex-col gap-1 rounded-lg border bg-card p-1 shadow-[var(--shadow-card)]">
-              <span className={cn("flex-1 rounded-md", i === 1 ? "bg-pink/70" : "bg-surface-2")} />
-              <span className="h-1.5 w-2/3 rounded-full bg-foreground/25" />
-            </span>
+            <span key={i} className={cn("rounded-lg", i === 1 ? "bg-pink/70" : "bg-surface-2")} />
           ))}
         </div>
       </div>

@@ -1,11 +1,12 @@
 import { CATEGORIES } from "@signal/shared";
-import { SearchX, Sparkles, X } from "lucide-react";
+import { SearchX, X } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { after, connection } from "next/server";
 import { Suspense } from "react";
 import { categoryRemaining } from "@/app/category-actions";
 import { BrandAvatar } from "@/components/brand-avatar";
+import { BrandRail, type RailBrand } from "@/components/feed/brand-rail";
 import { CategorySeeder } from "@/components/feed/category-seeder";
 import { PRICE_RANGES, feedHref, type FeedQuery } from "@/components/feed/feed-filters";
 import { FeedToolbar } from "@/components/feed/feed-toolbar";
@@ -53,50 +54,9 @@ function DiscoverSkeleton() {
   );
 }
 
-function BrandRail({ brands, query, title, hint }: { brands: BrandChip[]; query: FeedQuery; title?: string; hint?: string }) {
-  return (
-    <div className="flex flex-col gap-2">
-      {title && (
-        <span className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
-          <Sparkles className="size-3.5 text-pink-ink dark:text-pink" /> {title}
-          {hint && <span className="font-normal">· {hint}</span>}
-        </span>
-      )}
-      <div className="no-scrollbar -mx-1 flex gap-1 overflow-x-auto px-1 pb-1">
-        {!title && (
-          <Link
-            href={feedHref(query, { brand: undefined })}
-            scroll={false}
-            className={cn("flex w-[4.75rem] shrink-0 flex-col items-center gap-1.5 rounded-2xl p-1.5 transition-colors hover:bg-secondary", !query.brand && "bg-secondary")}
-          >
-            <span className={cn("grid size-12 place-items-center rounded-full border bg-card font-display text-xs font-semibold", !query.brand && "ring-2 ring-pink ring-offset-2 ring-offset-background")}>All</span>
-            <span className="w-full truncate text-center text-[0.7rem] font-medium">All brands</span>
-          </Link>
-        )}
-        {brands.map((b) => {
-          const on = b.id === query.brand;
-          return (
-            <Link
-              key={b.id}
-              href={feedHref(query, { brand: on ? undefined : b.id })}
-              scroll={false}
-              title={`${b.name} · ${b.ads} creatives`}
-              className={cn("group/brand flex w-[4.75rem] shrink-0 flex-col items-center gap-1.5 rounded-2xl p-1.5 transition-colors hover:bg-secondary", on && "bg-secondary")}
-            >
-              <BrandAvatar
-                name={b.name}
-                src={b.logo_url}
-                fallbackSrc={b.logo_small}
-                className={cn("size-12 transition-transform duration-300 ease-[var(--ease-out-quart)] group-hover/brand:scale-110", on && "ring-2 ring-pink ring-offset-2 ring-offset-background")}
-              />
-              <span className="w-full truncate text-center text-[0.7rem] font-medium">{b.name}</span>
-            </Link>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+/** Brand rows: links are built here on the server, the look comes from the interface style (brand-rail.tsx). */
+const railItems = (brands: BrandChip[], query: FeedQuery): RailBrand[] =>
+  brands.map((b) => ({ id: b.id, name: b.name, logo: b.logo_url, small: b.logo_small, ads: b.ads, on: b.id === query.brand, href: feedHref(query, { brand: b.id === query.brand ? undefined : b.id }) }));
 
 async function Discover({ searchParams }: { searchParams: PageProps<"/discover">["searchParams"] }) {
   await connection();
@@ -205,8 +165,8 @@ async function Discover({ searchParams }: { searchParams: PageProps<"/discover">
           }))}
         />
 
-        {allBrands.length > 0 && <BrandRail brands={allBrands} query={query} />}
-        {newBrands.length > 2 && !query.brand && <BrandRail brands={newBrands} query={query} title="New & challenger brands" hint="see how they're innovating" />}
+        {allBrands.length > 0 && <BrandRail brands={railItems(allBrands, query)} all={{ href: feedHref(query, { brand: undefined }), on: !query.brand }} />}
+        {newBrands.length > 2 && !query.brand && <BrandRail brands={railItems(newBrands, query)} title="New & challenger brands" hint="see how they're innovating" />}
         {isCategory && <CategorySeeder key={niche} categoryId={niche} label={label} count={c[niche] ?? 0} remaining={remaining} />}
       </div>
 

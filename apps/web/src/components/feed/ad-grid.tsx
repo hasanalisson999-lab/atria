@@ -3,7 +3,9 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useAdPanel } from "@/components/ad/ad-panel";
+import { AdBento, AdFrames, AdPosts, AdSheet } from "@/components/feed/ad-styles";
 import { AdTile } from "@/components/feed/ad-tile";
+import { useUiTheme } from "@/lib/ui-theme";
 import type { FeedAd } from "@/lib/server/ads";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +35,11 @@ export function AdGrid({ ads, layout = "grid" }: { ads: FeedAd[]; layout?: "grid
   const panel = useAdPanel();
   const cols = useMasonryColumns();
   const open = useCallback((id: string) => panel.open(id, ads.map((a) => ({ id: a.id, thumbnail_url: a.thumbnail_url }))), [panel, ads]);
+  const [ui] = useUiTheme();
+  if (layout === "grid" && ui !== "atria") {
+    const Layout = { studio: AdSheet, gallery: AdFrames, bento: AdBento, feed: AdPosts }[ui];
+    return <Layout ads={ads} onOpen={open} openId={panel.openId} />;
+  }
   if (layout === "row")
     return (
       <AdRow>
