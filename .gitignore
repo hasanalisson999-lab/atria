@@ -18,6 +18,4 @@ reports/benchmark-raw/
 
 # vercel
 .vercel
-
-.vercel
-.env*
+.env*.local
