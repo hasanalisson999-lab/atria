@@ -1,0 +1,377 @@
+/*
+ * Interface styles (Settings → Appearance). Each style is one block of design tokens for light, one for dark,
+ * plus a few style-specific rules at the end. The default style (Atria) lives in globals.css.
+ *
+ * How it works: <html data-ui="paper"> switches the whole app. The same attribute on any element (the preview
+ * cards in Settings) restyles just that element and its children.
+ *
+ * To add a style: copy a block below, rename the [data-ui="…"] value, change the tokens, and add the style to
+ * UI_THEMES in src/lib/ui-theme.ts.
+ */
+
+/* ------------------------------------------------------------------ Paper: warm editorial, serif headlines */
+[data-ui="paper"] {
+  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --ui-display-stretch: 100%;
+  --ui-display-wdth: 100;
+  --radius: 0.5rem;
+
+  --background: #f6f1e7;
+  --foreground: #1d1a16;
+  --surface: #efe8da;
+  --surface-2: #e8dfcd;
+  --card: #fbf8f2;
+  --card-foreground: #1d1a16;
+  --popover: #fbf8f2;
+  --popover-foreground: #1d1a16;
+  --primary: #1d1a16;
+  --primary-foreground: #fbf8f2;
+  --secondary: #ece4d4;
+  --secondary-foreground: #1d1a16;
+  --muted: #ece4d4;
+  --muted-foreground: #6e6558;
+  --accent: #eee6d6;
+  --accent-foreground: #1d1a16;
+  --border: #ddd2bd;
+  --input: #d6c9b1;
+  --ring: #c2410c;
+
+  --pink: #c2410c;
+  --pink-soft: #f7e3d6;
+  --pink-ink: #9a3412;
+  --lime: #b7d48a;
+  --lime-ink: #2f4a12;
+  --ink: #1d1a16;
+  --ink-foreground: #fbf8f2;
+  --skeleton: #e8e0d0;
+  --skeleton-hi: #f3ede1;
+
+  --shadow-card: 0 1px 0 rgb(29 26 22 / 0.06);
+  --shadow-lift: 0 14px 30px -18px rgb(29 26 22 / 0.35);
+  --glow-pink: 0 0 0 1px rgb(194 65 12 / 0.4), 0 12px 30px -14px rgb(194 65 12 / 0.45);
+}
+.dark[data-ui="paper"],
+.dark [data-ui="paper"] {
+  --background: #12100d;
+  --foreground: #f1ebdf;
+  --surface: #1a1714;
+  --surface-2: #221e1a;
+  --card: #18150f;
+  --card-foreground: #f1ebdf;
+  --popover: #1e1a15;
+  --popover-foreground: #f1ebdf;
+  --primary: #f1ebdf;
+  --primary-foreground: #12100d;
+  --secondary: #26211b;
+  --secondary-foreground: #f1ebdf;
+  --muted: #26211b;
+  --muted-foreground: #a99d8b;
+  --accent: #2a241d;
+  --accent-foreground: #f1ebdf;
+  --border: #2e2821;
+  --input: #3a3229;
+  --ring: #fb923c;
+
+  --pink: #fb923c;
+  --pink-soft: rgb(251 146 60 / 0.14);
+  --pink-ink: #fdba74;
+  --ink: #f1ebdf;
+  --ink-foreground: #12100d;
+  --skeleton: #221e19;
+  --skeleton-hi: #2d2720;
+
+  --shadow-card: 0 1px 0 rgb(0 0 0 / 0.5);
+  --shadow-lift: 0 18px 40px -20px rgb(0 0 0 / 0.85);
+}
+
+/* ------------------------------------------------------------------ Neon: futuristic, violet and cyan glow */
+[data-ui="neon"] {
+  --ui-font-sans: var(--font-space), var(--font-inter), ui-sans-serif, sans-serif;
+  --ui-font-display: var(--font-space), var(--font-inter), ui-sans-serif, sans-serif;
+  --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --ui-display-stretch: 100%;
+  --ui-display-wdth: 100;
+  --radius: 1rem;
+
+  --background: #f6f5ff;
+  --foreground: #13102b;
+  --surface: #eeecff;
+  --surface-2: #e6e3ff;
+  --card: #ffffff;
+  --card-foreground: #13102b;
+  --popover: #ffffff;
+  --popover-foreground: #13102b;
+  --primary: #13102b;
+  --primary-foreground: #ffffff;
+  --secondary: #ebe8ff;
+  --secondary-foreground: #13102b;
+  --muted: #ebe8ff;
+  --muted-foreground: #615c86;
+  --accent: #efedff;
+  --accent-foreground: #13102b;
+  --border: #e0dcfb;
+  --input: #d6d1f7;
+  --ring: #7c3aed;
+
+  --pink: #8b5cf6;
+  --pink-soft: #ede7ff;
+  --pink-ink: #5b21b6;
+  --lime: #67e8f9;
+  --lime-ink: #155e75;
+  --ink: #13102b;
+  --ink-foreground: #ffffff;
+  --skeleton: #e9e6ff;
+  --skeleton-hi: #f5f3ff;
+
+  --shadow-card: 0 1px 2px rgb(76 29 149 / 0.06), 0 0 0 1px rgb(139 92 246 / 0.06);
+  --shadow-lift: 0 18px 40px -16px rgb(124 58 237 / 0.35), 0 0 0 1px rgb(139 92 246 / 0.12);
+  --glow-pink: 0 0 0 1px rgb(139 92 246 / 0.5), 0 0 30px -4px rgb(139 92 246 / 0.6);
+}
+.dark[data-ui="neon"],
+.dark [data-ui="neon"] {
+  --background: #000000;
+  --foreground: #ecebff;
+  --surface: #06050f;
+  --surface-2: #0c0a1c;
+  --card: #08071a;
+  --card-foreground: #ecebff;
+  --popover: #0d0b22;
+  --popover-foreground: #ecebff;
+  --primary: #ecebff;
+  --primary-foreground: #000000;
+  --secondary: #131033;
+  --secondary-foreground: #ecebff;
+  --muted: #131033;
+  --muted-foreground: #9d98c9;
+  --accent: #16123b;
+  --accent-foreground: #ecebff;
+  --border: #1c1845;
+  --input: #262057;
+  --ring: #a78bfa;
+
+  --pink: #a78bfa;
+  --pink-soft: rgb(167 139 250 / 0.14);
+  --pink-ink: #c4b5fd;
+  --lime: #22d3ee;
+  --lime-ink: #032b33;
+  --ink: #ecebff;
+  --ink-foreground: #000000;
+  --skeleton: #110e2b;
+  --skeleton-hi: #1b1742;
+
+  --shadow-card: 0 0 0 1px rgb(167 139 250 / 0.1);
+  --shadow-lift: 0 0 0 1px rgb(167 139 250 / 0.28), 0 18px 50px -16px rgb(124 58 237 / 0.55);
+  --glow-pink: 0 0 0 1px rgb(167 139 250 / 0.6), 0 0 36px -2px rgb(167 139 250 / 0.7);
+}
+
+/* ------------------------------------------------------------------ Brutal: Swiss poster, hard edges */
+[data-ui="brutal"] {
+  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-display: var(--font-archivo), var(--font-inter), ui-sans-serif, sans-serif;
+  --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --ui-display-stretch: 100%;
+  --ui-display-wdth: 100;
+  --radius: 0rem;
+
+  --background: #ffffff;
+  --foreground: #000000;
+  --surface: #ffffff;
+  --surface-2: #f2f2f2;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f0f0;
+  --secondary-foreground: #000000;
+  --muted: #f0f0f0;
+  --muted-foreground: #444444;
+  --accent: #fff500;
+  --accent-foreground: #000000;
+  --border: #000000;
+  --input: #000000;
+  --ring: #000000;
+
+  --pink: #ffe600;
+  --pink-soft: #fffbcc;
+  --pink-ink: #000000;
+  --lime: #00ff85;
+  --lime-ink: #000000;
+  --ink: #000000;
+  --ink-foreground: #ffffff;
+  --skeleton: #eeeeee;
+  --skeleton-hi: #f8f8f8;
+
+  --shadow-card: 3px 3px 0 0 #000000;
+  --shadow-lift: 6px 6px 0 0 #000000;
+  --glow-pink: 4px 4px 0 0 #000000;
+}
+.dark[data-ui="brutal"],
+.dark [data-ui="brutal"] {
+  --background: #000000;
+  --foreground: #ffffff;
+  --surface: #000000;
+  --surface-2: #111111;
+  --card: #000000;
+  --card-foreground: #ffffff;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #141414;
+  --secondary-foreground: #ffffff;
+  --muted: #141414;
+  --muted-foreground: #bdbdbd;
+  --accent: #ffe600;
+  --accent-foreground: #000000;
+  --border: #ffffff;
+  --input: #ffffff;
+  --ring: #ffe600;
+
+  --pink: #ffe600;
+  --pink-soft: rgb(255 230 0 / 0.16);
+  --pink-ink: #ffe600;
+  --ink: #ffffff;
+  --ink-foreground: #000000;
+  --skeleton: #161616;
+  --skeleton-hi: #222222;
+
+  --shadow-card: 3px 3px 0 0 #ffffff;
+  --shadow-lift: 6px 6px 0 0 #ffe600;
+  --glow-pink: 4px 4px 0 0 #ffe600;
+}
+
+/* ------------------------------------------------------------------ Glass: frosted panels over a soft aurora */
+[data-ui="glass"] {
+  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --ui-display-stretch: 100%;
+  --ui-display-wdth: 100;
+  --radius: 1.1rem;
+  --ui-canvas: radial-gradient(60rem 40rem at 10% -10%, #c7d2fe 0%, transparent 60%), radial-gradient(50rem 36rem at 95% 5%, #fbcfe8 0%, transparent 60%),
+    radial-gradient(60rem 40rem at 50% 110%, #a5f3fc 0%, transparent 60%);
+
+  --background: #f5f7ff;
+  --foreground: #0f172a;
+  --surface: rgb(255 255 255 / 0.55);
+  --surface-2: rgb(255 255 255 / 0.4);
+  --card: rgb(255 255 255 / 0.62);
+  --card-foreground: #0f172a;
+  --popover: rgb(255 255 255 / 0.88);
+  --popover-foreground: #0f172a;
+  --primary: #0f172a;
+  --primary-foreground: #ffffff;
+  --secondary: rgb(255 255 255 / 0.6);
+  --secondary-foreground: #0f172a;
+  --muted: rgb(255 255 255 / 0.6);
+  --muted-foreground: #526079;
+  --accent: rgb(255 255 255 / 0.7);
+  --accent-foreground: #0f172a;
+  --border: rgb(255 255 255 / 0.75);
+  --input: rgb(15 23 42 / 0.12);
+  --ring: #6366f1;
+
+  --pink: #6366f1;
+  --pink-soft: rgb(99 102 241 / 0.12);
+  --pink-ink: #4338ca;
+  --lime: #5eead4;
+  --lime-ink: #134e4a;
+  --ink: #0f172a;
+  --ink-foreground: #ffffff;
+  --skeleton: rgb(255 255 255 / 0.5);
+  --skeleton-hi: rgb(255 255 255 / 0.85);
+
+  --shadow-card: 0 8px 24px -12px rgb(15 23 42 / 0.18), inset 0 1px 0 rgb(255 255 255 / 0.7);
+  --shadow-lift: 0 24px 48px -20px rgb(15 23 42 / 0.3), inset 0 1px 0 rgb(255 255 255 / 0.8);
+  --glow-pink: 0 0 0 1px rgb(99 102 241 / 0.4), 0 16px 40px -14px rgb(99 102 241 / 0.55);
+}
+.dark[data-ui="glass"],
+.dark [data-ui="glass"] {
+  --ui-canvas: radial-gradient(60rem 40rem at 10% -10%, rgb(79 70 229 / 0.45) 0%, transparent 60%), radial-gradient(50rem 36rem at 95% 5%, rgb(219 39 119 / 0.32) 0%, transparent 60%),
+    radial-gradient(60rem 40rem at 50% 110%, rgb(8 145 178 / 0.35) 0%, transparent 60%);
+  --background: #05060f;
+  --foreground: #eef2ff;
+  --surface: rgb(15 18 40 / 0.55);
+  --surface-2: rgb(25 28 55 / 0.5);
+  --card: rgb(18 20 44 / 0.55);
+  --card-foreground: #eef2ff;
+  --popover: rgb(18 20 44 / 0.92);
+  --popover-foreground: #eef2ff;
+  --primary: #eef2ff;
+  --primary-foreground: #05060f;
+  --secondary: rgb(255 255 255 / 0.07);
+  --secondary-foreground: #eef2ff;
+  --muted: rgb(255 255 255 / 0.07);
+  --muted-foreground: #a3acc9;
+  --accent: rgb(255 255 255 / 0.09);
+  --accent-foreground: #eef2ff;
+  --border: rgb(255 255 255 / 0.1);
+  --input: rgb(255 255 255 / 0.16);
+  --ring: #818cf8;
+
+  --pink: #818cf8;
+  --pink-soft: rgb(129 140 248 / 0.16);
+  --pink-ink: #c7d2fe;
+  --ink: #eef2ff;
+  --ink-foreground: #05060f;
+  --skeleton: rgb(255 255 255 / 0.06);
+  --skeleton-hi: rgb(255 255 255 / 0.12);
+
+  --shadow-card: 0 10px 30px -14px rgb(0 0 0 / 0.7), inset 0 1px 0 rgb(255 255 255 / 0.06);
+  --shadow-lift: 0 26px 60px -20px rgb(0 0 0 / 0.85), inset 0 1px 0 rgb(255 255 255 / 0.1);
+}
+
+/* ------------------------------------------------------------------ style-specific rules */
+
+/* Paper: serif headlines (Instrument Serif has a single weight, so headings never get fake bold). */
+[data-ui="paper"] :is(h1, h2, h3, .font-display) {
+  font-family: var(--ui-font-display);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -0.01em;
+}
+
+/* Neon: tighter geometric headings and a faint glow on the accent. */
+[data-ui="neon"] :is(h1, h2, .font-display) {
+  letter-spacing: -0.03em;
+}
+.dark[data-ui="neon"] .bg-pink,
+.dark [data-ui="neon"] .bg-pink {
+  box-shadow: 0 0 22px -4px var(--pink);
+}
+
+/* Brutal: square corners everywhere except true circles, bold uppercase headings. */
+[data-ui="brutal"] :is([class*="rounded"]:not(.rounded-full)) {
+  border-radius: 0 !important;
+}
+[data-ui="brutal"] :is(h1, h2) {
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+/* Glass: the aurora behind everything, and frosted panels on top of it. */
+body {
+  background-image: var(--ui-canvas, none);
+  background-attachment: fixed;
+}
+[data-ui="glass"] :is(.bg-card, .bg-popover, .bg-surface, .bg-secondary, .bg-background\/80, .bg-background\/85, .bg-background\/90) {
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+}
+
+/* ------------------------------------------------------------------ switching animation */
+/* Changing style plays a circular reveal from where you clicked (View Transitions; skipped if motion is reduced). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*) {
+    animation: none !important;
+  }
+}

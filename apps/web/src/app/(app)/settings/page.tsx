@@ -1,3 +1,4 @@
+import { Appearance } from "@/components/settings/appearance";
 import { CheckCircle2, ChevronDown, CircleDashed, KeyRound, ShieldAlert, XCircle } from "lucide-react";
 import { BrandProfileForm } from "@/components/settings/brand-profile-form";
 import { getMyBrandDraft } from "@/lib/server/my-brand";
@@ -34,6 +35,9 @@ export default function SettingsPage() {
         <h1 className="font-display display-tight text-[2.2rem] font-semibold sm:text-[2.6rem]">Settings</h1>
         <p className="text-sm text-muted-foreground">Your brand, your data sources, and what&apos;s running behind the scenes.</p>
       </div>
+      <Panel title="Appearance" description="Pick the look of the whole app. Change it any day: it switches instantly and is remembered on this device.">
+        <Appearance />
+      </Panel>
       <Panel title="Your brand" description="Atria personalizes the feed, Tracking, breakdowns and the Brand Lab around this.">
         <Suspense fallback={<SkeletonBlock className="h-64 rounded-2xl" />}>
           <Brand />

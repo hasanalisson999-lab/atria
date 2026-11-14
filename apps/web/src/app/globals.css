@@ -46,9 +46,10 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-archivo), var(--font-inter), ui-sans-serif, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  /* Fonts come from the active interface style (ui-themes.css). */
+  --font-sans: var(--ui-font-sans);
+  --font-display: var(--ui-font-display);
+  --font-mono: var(--ui-font-mono);
   --font-heading: var(--font-display);
 
   --radius-sm: calc(var(--radius) * 0.6);
@@ -68,7 +69,14 @@
   --animate-live: live 1.8s var(--ease-standard) infinite;
 }
 
-:root {
+:root,
+[data-ui="atria"] {
+  /* Interface style: Atria (default). Other styles override these in ui-themes.css. */
+  --ui-font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --ui-font-display: var(--font-archivo), var(--font-inter), ui-sans-serif, sans-serif;
+  --ui-font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --ui-display-stretch: 125%;
+  --ui-display-wdth: 125;
   --radius: 0.75rem;
 
   --background: #ffffff;
@@ -117,7 +125,8 @@
   --glow-pink: 0 0 0 1px rgb(247 114 255 / 0.35), 0 12px 36px -12px rgb(247 114 255 / 0.55);
 }
 
-.dark {
+.dark,
+.dark [data-ui="atria"] {
   --background: #000000;
   --foreground: #f4f4f6;
   --surface: #070708;
@@ -185,8 +194,8 @@
 /* ------------------------------------------------------------------ type */
 @utility font-display {
   font-family: var(--font-display);
-  font-stretch: 125%;
-  font-variation-settings: "wdth" 125;
+  font-stretch: var(--ui-display-stretch);
+  font-variation-settings: "wdth" var(--ui-display-wdth);
 }
 @utility display-tight {
   letter-spacing: -0.045em;
